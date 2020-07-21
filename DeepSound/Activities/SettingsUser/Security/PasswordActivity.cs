@@ -246,10 +246,12 @@ namespace DeepSound.Activities.SettingsUser.Security
                                 var errorText = error.Error.Replace("&#039;", "'");
                                 AndHUD.Shared.ShowError(this, errorText, MaskType.Clear, TimeSpan.FromSeconds(2));
                             }
-                            Methods.DisplayReportResult(this, respond);
+                            else if (respond is MessageObject errorRespond)
+                            {
+                                AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
+                            }
+                            //Methods.DisplayReportResult(this, respond);
                         }
-
-                        AndHUD.Shared.Dismiss(this);
                     }
                     else
                     {

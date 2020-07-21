@@ -56,7 +56,7 @@ namespace DeepSound.Activities
                 }
                 else
                 {
-                    UserDetails.LangName = Resources.Configuration.Locale.Language.ToLower();
+                    UserDetails.LangName = Resources.Configuration.Locales.Get(0).Language.ToLower();
                     LangController.SetApplicationLang(this, UserDetails.LangName);
                 }
 

@@ -5,7 +5,7 @@
     public static class AppSettings
     {
         //Main Settings >>>>>
-        public static string Cert = "QFzEsgASlG//7xkYzNFHkNdGah9t1yBL8Pmra4MczHO0gRHDXHkLOUO3i5JWaFEizrvZcl01kvNHzWbXglDFFsI9Cx4WH9dUbqAO6EZ2Pal1vInKmdPb6Sh24+qU/Nlh5TDfpwjp6/C5PMgtdoruGe2z16EwO2TAPvefo1rRy9JeG+Sv6wVT7KFBpo2DYzW2T/qi1+QmPUO6hqM5vepNLgTwQpUY1GBAkRaAvkgRdPczxcnjcz312+SWJRAwFkbezuRtb9zQDYui03RW8Il10Q==";
+        public static string Cert = "QFzEsgASlG//7xkYzNFHkJP9VcMg1ErGfDifXhCxkFtWmUVH4xNSlSiD6cb+XYSpponUKjZCD6XtcfcVk42Eo3kZ/Et6M+pGLbhoDvbsq1nXWomQE9S8BDZ2D6sTDX4MtzRJ8xMz4fGnriut6g0U+4ryhsWvTevh9M0TdaC78H85SpW2RJjVizRQGiORVFmCC1EqxaqklSjiqRryjkrH17+Ebjdw7DZEuKe8mGwjCGjVGCbrz86HJCmQXGL3Fc4G+SJ/vLEfdv3xqZjIl1paDw==";
         //*********************************************************
 
         public static string ApplicationName = "DeepSound";
@@ -14,6 +14,9 @@
         //Main Colors >>
         //*********************************************************
         public static string MainColor = "#ffa142";
+
+        public static string BackgroundGradationColor1 = "#3033c6"; //#New
+        public static string BackgroundGradationColor2 = "#fb0049"; //#New
 
         //Language Settings >> http://www.lingoes.net/en/translator/langcode.htm
         //*********************************************************
@@ -47,6 +50,19 @@
         public static int ShowAdMobRewardedVideoCount = 3;
         //*********************************************************
 
+        //FaceBook Ads >> Please add the code ad in the Here and analytic.xml 
+        //*********************************************************
+        public static bool ShowFbBannerAds = false; //#New
+        public static bool ShowFbInterstitialAds = false; //#New
+        public static bool ShowFbRewardVideoAds = false; //#New
+        public static bool ShowFbNativeAds = false; //#New
+
+        //YOUR_PLACEMENT_ID
+        public static string AdsFbBannerKey = "250485588986218_554026418632132"; //#New
+        public static string AdsFbInterstitialKey = "250485588986218_554026125298828"; //#New
+        public static string AdsFbRewardVideoKey = "250485588986218_554072818627492"; //#New
+        public static string AdsFbNativeKey = "250485588986218_554706301897477"; //#New
+         
         //Social Logins >>
         //If you want login with facebook or google you should change id key in the analytic.xml file  
         //Facebook >> ../values/analytic.xml .. line 10 - 11
@@ -63,7 +79,13 @@
          
         //*********************************************************
         public static bool ShowPrice = true;
-        public static bool ShowSkipButton = true; 
+        public static bool ShowSkipButton = true;
+
+        //in album
+        public static bool ShowCountPurchases = true; //#New
+
+        //Show Title Album Only on song
+        public static bool ShowTitleAlbumOnly = false; //#New
 
         //Set Theme Full Screen App
         //*********************************************************
@@ -80,6 +102,7 @@
         //*********************************************************
         public static bool ShowButtonUploadSingleSong { get; set; } = true;
         public static bool ShowButtonUploadAlbum { get; set; } = true;  //#New 
+        public static bool ShowButtonImportSong { get; set; } = true;  //#New 
 
         //Offline Sound >>  
         //*********************************************************

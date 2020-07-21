@@ -71,8 +71,7 @@ namespace DeepSound.Activities.Playlist.Adapters
                 {
                     var item = PlaylistList[position];
                     if (item != null)
-                    {
-                        
+                    {                         
                         FullGlideRequestBuilder.Load(item.ThumbnailReady).Into(holder.Image);
                         holder.TxtName.Text = Methods.FunString.DecodeString(item.Name);
                         holder.TxtCountSongs.Text = item.Songs +  " " + ActivityContext.GetText(Resource.String.Lbl_Songs);

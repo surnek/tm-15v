@@ -217,6 +217,12 @@ namespace DeepSound.Activities.Tabbes
 
                 InitPayPalPayment?.StopPayPalService();
 
+                Intent intent = new Intent(this, typeof(PlayerService));
+                intent.SetAction(PlayerService.ActionStop);
+                StartService(intent);
+
+                StopService(intent);
+
                 base.OnDestroy();
             }
             catch (Exception exception)
@@ -291,8 +297,13 @@ namespace DeepSound.Activities.Tabbes
                     MoreMultiButtons.GetChildAt(1).Visibility = ViewStates.Gone;
                 }
 
-                if (!AppSettings.ShowButtonUploadSingleSong && !AppSettings.ShowButtonUploadAlbum)
+                if (!AppSettings.ShowButtonImportSong)
                 {
+                    MoreMultiButtons.GetChildAt(2).Visibility = ViewStates.Gone;
+                }
+
+                if (!AppSettings.ShowButtonUploadSingleSong && !AppSettings.ShowButtonUploadAlbum && !AppSettings.ShowButtonImportSong)
+                { 
                     MoreMultiButtons.GetChildAt(0).Visibility = ViewStates.Gone;
                     MoreMultiButtons.GetChildAt(1).Visibility = ViewStates.Gone;
                     MoreMultiButtons.GetChildAt(2).Visibility = ViewStates.Gone;
@@ -458,7 +469,7 @@ namespace DeepSound.Activities.Tabbes
                                 badge.SetBadgeNumber(countNotifications);
                                 badge.SetBadgeGravity(gravity);
                                 badge.SetBadgeBackgroundColor(Color.ParseColor(AppSettings.MainColor));
-                                badge.SetGravityOffset(10, true);
+                                //badge.SetGravityOffset(10, true);
                             }
                         }
                         else
@@ -952,7 +963,7 @@ namespace DeepSound.Activities.Tabbes
                         SoundController?.BackIcon.SetImageResource(Resource.Drawable.ic_action_close);
                         SoundController.BackIcon.Tag = "Close";
                         SoundController?.SetUiSliding(true);
-                        NavigationTabBar.Visibility = ViewStates.Gone;
+                        NavigationTabBar.Visibility = ViewStates.Visible;
                     }
                 }
                 else if (p1 == SlidingUpPanelLayout.PanelState.Expanded && p2 == SlidingUpPanelLayout.PanelState.Anchored)

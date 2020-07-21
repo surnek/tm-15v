@@ -559,16 +559,16 @@ namespace DeepSound.Activities.Tabbes.Fragments
                         RecommendedList = new ObservableCollection<SoundDataObject>(result.randoms?.Recommended);
                     }
 
-                    if (result.newReleases != null && result.newReleases.Value.NewReleasesClass.Data?.Count > 0)
+                    if (result.newReleases != null && result.newReleases?.NewReleasesClass?.Data?.Count > 0)
                     {
-                        NewReleasesSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.newReleases.Value.NewReleasesClass.Data);
+                        NewReleasesSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.newReleases?.NewReleasesClass?.Data);
                     }
 
-                    if (result.recentlyPlayed != null && result.recentlyPlayed.Value.RecentlyPlayedClass.Data?.Count > 0)
+                    if (result.recentlyPlayed != null && result.recentlyPlayed?.RecentlyPlayedClass?.Data?.Count > 0)
                     {
                         if (RecentlyPlayedSoundAdapter.SoundsList.Count > 0)
                         {
-                            var newItemList = result.recentlyPlayed.Value.RecentlyPlayedClass.Data.Where(c => !RecentlyPlayedSoundAdapter.SoundsList.Select(fc => fc.Id).Contains(c.Id)).ToList();
+                            var newItemList = result.recentlyPlayed?.RecentlyPlayedClass?.Data.Where(c => !RecentlyPlayedSoundAdapter.SoundsList.Select(fc => fc.Id).Contains(c.Id)).ToList();
                             if (newItemList.Count > 0)
                             {
                                 ListUtils.AddRange(RecentlyPlayedSoundAdapter.SoundsList, newItemList);
@@ -576,7 +576,7 @@ namespace DeepSound.Activities.Tabbes.Fragments
                         }
                         else
                         {                            
-                            RecentlyPlayedSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.recentlyPlayed.Value.RecentlyPlayedClass.Data); 
+                            RecentlyPlayedSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.recentlyPlayed?.RecentlyPlayedClass?.Data); 
                         }
 
                         var soundDataObjects = RecentlyPlayedSoundAdapter.SoundsList?.Reverse();
@@ -586,9 +586,9 @@ namespace DeepSound.Activities.Tabbes.Fragments
                         RecentlyPlayedSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(list);
                     }
                       
-                    if (result.mostPopularWeek != null && result.mostPopularWeek.Value.MostPopularWeekClass?.Data?.Count > 0)
+                    if (result.mostPopularWeek != null && result.mostPopularWeek?.MostPopularWeekClass?.Data?.Count > 0)
                     {
-                        PopularSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.mostPopularWeek.Value.MostPopularWeekClass?.Data);
+                        PopularSoundAdapter.SoundsList = new ObservableCollection<SoundDataObject>(result.mostPopularWeek?.MostPopularWeekClass?.Data);
                     }
                 }
             }
@@ -616,7 +616,11 @@ namespace DeepSound.Activities.Tabbes.Fragments
                     }
                     ViewPagerView.Adapter.NotifyDataSetChanged();
                 }
-                 
+                else
+                {
+                    ViewPagerView.Visibility = ViewStates.Gone;
+                }
+
                 if (NewReleasesSoundAdapter.SoundsList?.Count > 0)
                 {
                     NewReleasesInflated ??= NewReleasesViewStub.Inflate();

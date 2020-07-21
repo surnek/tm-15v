@@ -144,8 +144,7 @@ namespace DeepSound.Activities.Songs
                 InfoSongWindow.Hide();
                 InfoSongWindow.Dismiss();
 
-                if (DataObject.Publisher.Id != null)
-                    HomeActivity.GetInstance()?.OpenProfile(DataObject.Publisher.Id, DataObject.Publisher);
+                HomeActivity.GetInstance()?.OpenProfile(DataObject.Publisher.Id, DataObject.Publisher);
             }
             catch (Exception exception)
             {

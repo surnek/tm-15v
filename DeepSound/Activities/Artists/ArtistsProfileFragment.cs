@@ -104,7 +104,7 @@ namespace DeepSound.Activities.Artists
 
                 GetMyInfoData();
 
-                AdsGoogle.Ad_Interstitial(Context);
+                AdsGoogle.Ad_Interstitial(Activity);
                  
                 base.OnViewCreated(view, savedInstanceState);
             }

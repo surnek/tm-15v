@@ -70,20 +70,8 @@ namespace DeepSound.Activities.Albums.Adapters
                
                 if (item == null)
                     return;
-
-                var imageUrl = string.Empty; 
-                if (!string.IsNullOrEmpty(item.ThumbnailOriginal))
-                {
-                    if (!item.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                        imageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + item.ThumbnailOriginal;
-                    else
-                        imageUrl = item.ThumbnailOriginal;
-                }
-
-                if (string.IsNullOrEmpty(imageUrl))
-                    imageUrl = item.Thumbnail;
-
-                FullGlideRequestBuilder.Load(imageUrl).Into(holder.Image);
+                 
+                FullGlideRequestBuilder.Load(item.Thumbnail).Into(holder.Image);
 
                 holder.TxtTitle.Text = Methods.FunString.DecodeString(item.Title);
 
@@ -158,20 +146,11 @@ namespace DeepSound.Activities.Albums.Adapters
 
                 if (item == null)
                     return Collections.SingletonList(p0);
-
-                var ImageUrl = string.Empty;
-                if (!string.IsNullOrEmpty(item.ThumbnailOriginal))
+                 
+                if (!string.IsNullOrEmpty(item.Thumbnail))
                 {
-                    if (!item.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                        ImageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + item.ThumbnailOriginal;
-                    else
-                        ImageUrl = item.ThumbnailOriginal;
-                }
-
-                if (string.IsNullOrEmpty(ImageUrl))
-                    ImageUrl = item.Thumbnail;
-
-                d.Add(ImageUrl);
+                    d.Add(item.Thumbnail);
+                } 
                 return d;
             }
             catch (Exception e)

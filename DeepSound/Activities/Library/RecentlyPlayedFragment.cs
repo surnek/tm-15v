@@ -78,7 +78,7 @@ namespace DeepSound.Activities.Library
 
                 StartApiService();
 
-                AdsGoogle.Ad_Interstitial(Context);
+                AdsGoogle.Ad_Interstitial(Activity);
 
                 base.OnViewCreated(view, savedInstanceState);
             }

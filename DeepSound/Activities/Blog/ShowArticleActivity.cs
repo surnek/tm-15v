@@ -5,7 +5,6 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
-using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Text;
 using Android.Views;
@@ -32,8 +31,8 @@ namespace DeepSound.Activities.Blog
         private WebView TxtHtml;
         private ImageButton BtnMore;
         private ArticleObject ArticleData; 
-        private CoordinatorLayout RootView;
-        private TextView LoadMore, CategoryName, ClockIcon, DateTimeTextView;
+        //private CoordinatorLayout RootView;
+        private TextView /*LoadMore,*/ CategoryName, ClockIcon, DateTimeTextView;
         private string ArticleId;
      
         #endregion
@@ -349,7 +348,7 @@ namespace DeepSound.Activities.Blog
                     TxtHtml.Settings.LoadsImagesAutomatically = true;
                     TxtHtml.Settings.JavaScriptEnabled = true;
                     TxtHtml.Settings.JavaScriptCanOpenWindowsAutomatically = true;
-                    TxtHtml.Settings.SetLayoutAlgorithm(WebSettings.LayoutAlgorithm.NarrowColumns);
+                    //TxtHtml.Settings.SetLayoutAlgorithm(WebSettings.LayoutAlgorithm.NarrowColumns);
                     TxtHtml.Settings.DomStorageEnabled = true;
                     TxtHtml.Settings.AllowFileAccess = true;
                     TxtHtml.Settings.DefaultTextEncodingName = "utf-8";

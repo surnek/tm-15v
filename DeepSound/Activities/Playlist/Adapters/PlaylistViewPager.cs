@@ -46,7 +46,7 @@ namespace DeepSound.Activities.Playlist.Adapters
                     var boxLayout = layout.FindViewById<LinearLayout>(Resource.Id.boxLayout);
                    
                     boxLayout.SetBackgroundColor(AppSettings.SetTabDarkTheme ? Color.ParseColor("#282828") : Color.ParseColor("#efefef"));
-                     
+
                     GlideImageLoader.LoadImage(ActivityContext, PlaylistList[position].ThumbnailReady, image, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
                 }
                 else if (position == 1)

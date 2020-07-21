@@ -19,7 +19,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Android.Graphics;
+using DeepSound.Helpers.Ads;
 using DeepSound.Helpers.MediaPlayerController;
+using Xamarin.Facebook.Ads;
 using Fragment = Android.Support.V4.App.Fragment;
 namespace DeepSound.Activities.UserProfile.Fragments
 {
@@ -37,6 +39,7 @@ namespace DeepSound.Activities.UserProfile.Fragments
         private RecyclerViewOnScrollListener MainScrollEvent;
         public bool IsCreated;
         private string UserId;
+        private AdView BannerAd;
 
         #endregion
 
@@ -67,7 +70,20 @@ namespace DeepSound.Activities.UserProfile.Fragments
                 return null;
             }
         }
-         
+
+        public override void OnDestroy()
+        {
+            try
+            {
+                BannerAd?.Destroy();
+                base.OnDestroy();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -85,6 +101,10 @@ namespace DeepSound.Activities.UserProfile.Fragments
                 SwipeRefreshLayout.Enabled = true;
                 SwipeRefreshLayout.SetProgressBackgroundColorSchemeColor(AppSettings.SetTabDarkTheme ? Color.ParseColor("#424242") : Color.ParseColor("#f7f7f7"));
                 SwipeRefreshLayout.Refresh += SwipeRefreshLayoutOnRefresh;
+
+                LinearLayout adContainer = view.FindViewById<LinearLayout>(Resource.Id.bannerContainer);
+                BannerAd = AdsFacebook.InitAdView(Activity, adContainer);
+
             }
             catch (Exception e)
             {

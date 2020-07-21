@@ -319,10 +319,8 @@ namespace DeepSound.Activities.Upload
                         {
                             AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
                         }
-                        Methods.DisplayReportResult(this, respond);
+                        //Methods.DisplayReportResult(this, respond);
                     }
-
-                    AndHUD.Shared.Dismiss(this);
                 }
             }
             catch (Exception exception)

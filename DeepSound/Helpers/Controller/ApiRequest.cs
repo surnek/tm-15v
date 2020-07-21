@@ -65,7 +65,7 @@ namespace DeepSound.Helpers.Controller
 
             if (Methods.CheckConnectivity())
             {
-                var (apiStatus, respond) = await RequestsAsync.User.ProfileAsync(userId, "stations,albums,playlists,activities,latest_songs,store").ConfigureAwait(false);
+                var (apiStatus, respond) = await RequestsAsync.User.ProfileAsync(userId, "followers,following").ConfigureAwait(false);
                 if (apiStatus == 200)
                 {
                     if (respond is ProfileObject result)

@@ -79,9 +79,9 @@ namespace DeepSound.Activities.Songs.Adapters
                     return;
 
                 holder.CountItemTextView.Text = position.ToString("D2");
-                FullGlideRequestBuilder.Load(item.Thumbnail).Into(holder.Image);
-                
 
+                FullGlideRequestBuilder.Load(item.Thumbnail).Into(holder.Image);
+                 
                 holder.TxtSongName.Text = Methods.FunString.SubStringCutOf(Methods.FunString.DecodeString(item.Title),60);
                 holder.TxtGenresName.Text = item.CategoryName + " " + ActivityContext.GetText(Resource.String.Lbl_Music) + " - " + DeepSoundTools.GetNameFinal(item.Publisher);
 

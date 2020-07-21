@@ -323,10 +323,8 @@ namespace DeepSound.Activities.Albums
                         {
                             AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
                         }
-                        Methods.DisplayReportResult(this, respond);
-                    }
-
-                    AndHUD.Shared.Dismiss(this);
+                        //Methods.DisplayReportResult(this, respond);
+                    } 
                 }
             }
             catch (Exception exception)
@@ -628,20 +626,8 @@ namespace DeepSound.Activities.Albums
                 if (AlbumObject != null)
                 {
                     PathImage = "";
-
-                    var imageUrl = string.Empty;
-                    if (!string.IsNullOrEmpty(AlbumObject.ThumbnailOriginal))
-                    {
-                        if (!AlbumObject.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                            imageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + AlbumObject.ThumbnailOriginal;
-                        else
-                            imageUrl = AlbumObject.ThumbnailOriginal;
-                    }
-
-                    if (string.IsNullOrEmpty(imageUrl))
-                        imageUrl = AlbumObject.Thumbnail;
-
-                    GlideImageLoader.LoadImage(this, imageUrl, AlbumImage, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
+                     
+                    GlideImageLoader.LoadImage(this, AlbumObject.Thumbnail, AlbumImage, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
 
                     TitleEditText.Text = Methods.FunString.DecodeString(AlbumObject.Title);
                     DescriptionEditText.Text = Methods.FunString.DecodeString(AlbumObject.Description);

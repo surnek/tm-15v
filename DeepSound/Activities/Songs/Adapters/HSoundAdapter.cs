@@ -67,20 +67,7 @@ namespace DeepSound.Activities.Songs.Adapters
                     var item = SoundsList[position];
                     if (item != null)
                     {
-                        var ImageUrl = string.Empty;
-
-                        if (!string.IsNullOrEmpty(item.ThumbnailOriginal))
-                        {
-                            if (!item.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                                ImageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + item.ThumbnailOriginal;
-                            else
-                                ImageUrl = item.ThumbnailOriginal;
-                        }
-
-                        if (string.IsNullOrEmpty(ImageUrl))
-                            ImageUrl = item.Thumbnail;
-
-                        FullGlideRequestBuilder.Load(ImageUrl).Into(holder.Image);
+                        FullGlideRequestBuilder.Load(item.Thumbnail).Into(holder.Image);
 
                         holder.TxtTitle.Text = Methods.FunString.DecodeString(item.Title);
                         holder.TxtSeconderyText.Text = item.CategoryName + " " + ActivityContext.GetText(Resource.String.Lbl_Music) + " - " + DeepSoundTools.GetNameFinal(item.Publisher);
@@ -138,20 +125,8 @@ namespace DeepSound.Activities.Songs.Adapters
 
                 if (item == null)
                     return Collections.SingletonList(p0);
-
-                var ImageUrl = string.Empty;
-                if (!string.IsNullOrEmpty(item.ThumbnailOriginal))
-                {
-                    if (!item.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                        ImageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + item.ThumbnailOriginal;
-                    else
-                        ImageUrl = item.ThumbnailOriginal;
-                }
-
-                if (string.IsNullOrEmpty(ImageUrl))
-                    ImageUrl = item.Thumbnail;
-
-                d.Add(ImageUrl);
+                 
+                d.Add(item.Thumbnail);
                 return d;
             
             }

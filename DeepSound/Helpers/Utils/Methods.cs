@@ -735,7 +735,7 @@ namespace DeepSound.Helpers.Utils
                 try
                 {
                     string filePath = System.IO.Path.Combine(foldername);
-                    string mediaFile = filePath + "/" + filename;
+                    string mediaFile = filePath + "/" + filename.Replace("%20"," ");
 
                     File file = new File(foldername, filename);
                     if (file.Exists())

@@ -690,11 +690,11 @@ namespace DeepSound.Activities.Upload
                 }
                 else if (TypeDialog == "AllowDownloads")
                 {
-                    if (itemId.ToString() == GetString(Resource.String.Lbl_Yes))
+                    if (text == GetString(Resource.String.Lbl_Yes))
                     {
                         IdAllowDownloads = "1";
                     }
-                    else if (itemId.ToString() == GetString(Resource.String.Lbl_No))
+                    else if (text == GetString(Resource.String.Lbl_No))
                     {
                         IdAllowDownloads = "0";
                     }

@@ -14,12 +14,14 @@ using Bumptech.Glide.Util;
 using DeepSound.Activities.Playlist;
 using DeepSound.Activities.Playlist.Adapters;
 using DeepSound.Activities.Tabbes;
+using DeepSound.Helpers.Ads;
 using DeepSound.Helpers.Controller;
 using DeepSound.Helpers.Model;
 using DeepSound.Helpers.Utils;
 using DeepSoundClient.Classes.Playlist;
 using DeepSoundClient.Requests;
 using Newtonsoft.Json;
+using Xamarin.Facebook.Ads;
 using Fragment = Android.Support.V4.App.Fragment;
 namespace DeepSound.Activities.UserProfile.Fragments
 {
@@ -32,12 +34,13 @@ namespace DeepSound.Activities.UserProfile.Fragments
         private ViewStub EmptyStateLayout;
         private SwipeRefreshLayout SwipeRefreshLayout;
         private RecyclerView MRecycler;
-        public HPlaylistAdapter MAdapter;
+        private HPlaylistAdapter MAdapter;
         private GridLayoutManager MLayoutManager;
         private RecyclerViewOnScrollListener MainScrollEvent;
         public bool IsCreated;
         private string UserId;
         private PlaylistProfileFragment PlaylistProfileFragment;
+        private AdView BannerAd;
 
         #endregion
 
@@ -68,7 +71,20 @@ namespace DeepSound.Activities.UserProfile.Fragments
                 return null;
             }
         }
-         
+
+        public override void OnDestroy()
+        {
+            try
+            {
+                BannerAd?.Destroy();
+                base.OnDestroy();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
         #endregion
 
         #region Functions
@@ -88,6 +104,10 @@ namespace DeepSound.Activities.UserProfile.Fragments
                 SwipeRefreshLayout.Enabled = true;
                 SwipeRefreshLayout.SetProgressBackgroundColorSchemeColor(AppSettings.SetTabDarkTheme ? Color.ParseColor("#424242") : Color.ParseColor("#f7f7f7"));
                 SwipeRefreshLayout.Refresh += SwipeRefreshLayoutOnRefresh;
+
+                LinearLayout adContainer = view.FindViewById<LinearLayout>(Resource.Id.bannerContainer);
+                BannerAd = AdsFacebook.InitAdView(Activity, adContainer);
+
             }
             catch (Exception e)
             {

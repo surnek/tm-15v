@@ -387,7 +387,7 @@ namespace DeepSound.Activities.Chat
                 {
                     UserId = item.User.Id.ToString();
                     item.GetCountSeen = 0;
-                    item.GetLastMessage.Seen = 1;
+                    if (item.GetLastMessage != null) item.GetLastMessage.Value.GetLastMessageClass.Seen = 1;
                     Intent intent = new Intent(this, typeof(MessagesBoxActivity));
                     intent.PutExtra("UserId", item.User.Id.ToString());
                     intent.PutExtra("TypeChat", "LastChat");
@@ -531,41 +531,53 @@ namespace DeepSound.Activities.Chat
 
                                 //checkUser.Id = user.Id;
                                 //if (checkUser.Owner != user.Owner) checkUser.Owner = user.Owner;
-                                if (checkUser.GetLastMessage.Time != user.GetLastMessage.Time) checkUser.GetLastMessage.Time = user.GetLastMessage.Time;
-                                if (checkUser.GetLastMessage.Seen != user.GetLastMessage.Seen) checkUser.GetLastMessage.Seen = user.GetLastMessage.Seen;
+                               
+                                if (checkUser.GetLastMessage?.GetLastMessageClass.Time != user.GetLastMessage?.GetLastMessageClass.Time)
+                                    if (checkUser.GetLastMessage != null) if (user.GetLastMessage != null) checkUser.GetLastMessage.Value.GetLastMessageClass.Time = user.GetLastMessage.Value.GetLastMessageClass.Time;
+                                if (checkUser.GetLastMessage?.GetLastMessageClass.Seen != user.GetLastMessage?.GetLastMessageClass.Seen)
+                                    if (checkUser.GetLastMessage != null) if (user.GetLastMessage != null) checkUser.GetLastMessage.Value.GetLastMessageClass.Seen = user.GetLastMessage.Value.GetLastMessageClass.Seen;
+                              
                                 if (checkUser.GetCountSeen != user.GetCountSeen) checkUser.GetCountSeen = user.GetCountSeen;
                                 if (checkUser.User != user.User) checkUser.User = user.User;
 
-                                if (checkUser.GetLastMessage.ApiType != user.GetLastMessage.ApiType) continue;
-                                checkUser.GetLastMessage.ApiType = user.GetLastMessage.ApiType;
-
-                                if (checkUser.GetLastMessage.Text != user.GetLastMessage.Text)
+                                if (checkUser.GetLastMessage?.GetLastMessageClass.ApiType != user.GetLastMessage?.GetLastMessageClass.ApiType) continue;
+                                if (checkUser.GetLastMessage != null)
                                 {
-                                    checkUser.GetLastMessage.Text = user.GetLastMessage.Text;
-
-                                    if (index > -1)
+                                    if (user.GetLastMessage != null)
                                     {
-                                        RunOnUiThread(() =>
+                                        checkUser.GetLastMessage.Value.GetLastMessageClass.ApiType = user.GetLastMessage.Value.GetLastMessageClass.ApiType;
+
+                                        if (checkUser.GetLastMessage?.GetLastMessageClass.Text !=
+                                            user.GetLastMessage?.GetLastMessageClass.Text)
                                         {
-                                            MAdapter.UserList.Move(index, 0);
-                                            MAdapter.NotifyItemMoved(index, 0);
-                                        });
+                                            checkUser.GetLastMessage.Value.GetLastMessageClass.Text =
+                                                user.GetLastMessage?.GetLastMessageClass.Text;
+
+                                            if (index > -1)
+                                            {
+                                                RunOnUiThread(() =>
+                                                {
+                                                    MAdapter.UserList.Move(index, 0);
+                                                    MAdapter.NotifyItemMoved(index, 0);
+                                                });
+                                            }
+                                        }
+
+                                        if (checkUser.GetLastMessage?.GetLastMessageClass.Image != user.GetLastMessage?.GetLastMessageClass.Image)
+                                        {
+                                            checkUser.GetLastMessage.Value.GetLastMessageClass.Image = user.GetLastMessage?.GetLastMessageClass.Image;
+
+                                            if (index > -1)
+                                            {
+                                                RunOnUiThread(() =>
+                                                {
+                                                    MAdapter.UserList.Move(index, 0);
+                                                    MAdapter.NotifyItemMoved(index, 0);
+                                                });
+                                            }
+                                        }
                                     }
                                 }
-
-                                if (checkUser.GetLastMessage.Image != user.GetLastMessage.Image)
-                                {
-                                    checkUser.GetLastMessage.Image = user.GetLastMessage.Image;
-
-                                    if (index > -1)
-                                    {
-                                        RunOnUiThread(() =>
-                                        {
-                                            MAdapter.UserList.Move(index, 0);
-                                            MAdapter.NotifyItemMoved(index, 0);
-                                        });
-                                    }
-                                } 
                             }
                             else
                             {

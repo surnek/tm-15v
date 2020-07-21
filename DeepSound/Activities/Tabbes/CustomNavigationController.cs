@@ -63,8 +63,8 @@ namespace DeepSound.Activities.Tabbes
 
                 if (!UserDetails.IsLogin)
                 {
-                    CustomImage4.Visibility = ViewStates.Gone;
-                    CustomImage5.Visibility = ViewStates.Gone;
+                    CustomButton4.Visibility = ViewStates.Gone;
+                    CustomButton5.Visibility = ViewStates.Gone;
                     MainLayout.WeightSum = 3;
                 }
 
@@ -610,10 +610,17 @@ namespace DeepSound.Activities.Tabbes
                     Context.MoreMultiButtons.GetChildAt(1).Visibility = ViewStates.Gone;
                 }
 
-                if (!AppSettings.ShowButtonUploadSingleSong && !AppSettings.ShowButtonUploadAlbum)
+                if (!AppSettings.ShowButtonImportSong)
+                {
+                    Context.MoreMultiButtons.GetChildAt(2).Visibility = ViewStates.Gone;
+                }
+
+                if (!AppSettings.ShowButtonUploadSingleSong && !AppSettings.ShowButtonUploadAlbum && !AppSettings.ShowButtonImportSong)
                 {
                     Context.MoreMultiButtons.GetChildAt(0).Visibility = ViewStates.Gone;
                     Context.MoreMultiButtons.GetChildAt(1).Visibility = ViewStates.Gone;
+                    Context.MoreMultiButtons.GetChildAt(2).Visibility = ViewStates.Gone;
+                    Context.MoreMultiButtons.Visibility = ViewStates.Gone;
                 }
             }
             catch (Exception e)

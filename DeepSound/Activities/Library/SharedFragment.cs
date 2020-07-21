@@ -71,7 +71,7 @@ namespace DeepSound.Activities.Library
 
                 LoadSharedSounds();
 
-                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Context);
+                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Activity);
 
                 base.OnViewCreated(view, savedInstanceState);
             }

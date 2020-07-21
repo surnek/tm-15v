@@ -29,12 +29,11 @@ namespace DeepSound.Helpers.MediaPlayerController
 
         private readonly string FilePath = Methods.Path.FolderDcimSound;
         private readonly string Filename;
-        private long DownloadId;
+        private long DownloadId, SoundId;
         private string FromActivity;
-        private SoundDataObject Sound;
         private readonly HomeActivity ActivityContext;
          
-        public SoundDownloadAsyncController(string url, string filename, Context contextActivity)
+        public SoundDownloadAsyncController(string url, string filename, long id, Context contextActivity)
         {
             try
             {
@@ -47,7 +46,8 @@ namespace DeepSound.Helpers.MediaPlayerController
                     Filename = filename + ".mp3";
                 else
                     Filename = filename;
-                 
+
+                SoundId = id;
                 DownloadManager = (DownloadManager)Application.Context.GetSystemService(Context.DownloadService);
                 Request = new DownloadManager.Request(Android.Net.Uri.Parse(url));
             }
@@ -63,12 +63,11 @@ namespace DeepSound.Helpers.MediaPlayerController
             {
                 if (sound != null && !string.IsNullOrEmpty(title))
                 {
-                    Sound = sound;
                     FromActivity = fromActivity;
                     Console.WriteLine(FromActivity);
 
                     var sqlEntity = new SqLiteDatabase();
-                    sqlEntity.InsertOrUpdate_LatestDownloadsSound(Sound);
+                    sqlEntity.InsertOrUpdate_LatestDownloadsSound(sound);
                     sqlEntity.Dispose();
 
                     Request.SetTitle(title);
@@ -78,13 +77,8 @@ namespace DeepSound.Helpers.MediaPlayerController
                     Request.SetAllowedOverRoaming(true);
                     DownloadId = DownloadManager.Enqueue(Request);
 
-
-                    OnDownloadComplete onDownloadComplete = new OnDownloadComplete
-                    {
-                        ActivityContext = ActivityContext, TypeActivity = fromActivity,
-                        Sound = Sound
-                    };
-
+                    OnDownloadComplete onDownloadComplete = new OnDownloadComplete();
+                    onDownloadComplete.SetData(ActivityContext, fromActivity, sound); 
                     Application.Context.ApplicationContext.RegisterReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ActionDownloadComplete));
                 }
                 else
@@ -103,7 +97,7 @@ namespace DeepSound.Helpers.MediaPlayerController
             try
             {
                 DownloadManager.Remove(DownloadId);
-                RemoveDiskSoundFile(Filename);
+                RemoveDiskSoundFile(Filename, SoundId);
             }
             catch (Exception exception)
             {
@@ -111,7 +105,7 @@ namespace DeepSound.Helpers.MediaPlayerController
             }
         }
 
-        public bool RemoveDiskSoundFile(string filename)
+        public bool RemoveDiskSoundFile(string filename , long id)
         {
             try
             {
@@ -119,7 +113,7 @@ namespace DeepSound.Helpers.MediaPlayerController
                 if (File.Exists(path))
                 {
                     var sqlEntity = new SqLiteDatabase();
-                    sqlEntity.Remove_LatestDownloadsSound(int.Parse(filename.Replace(".mp3", "")));
+                    sqlEntity.Remove_LatestDownloadsSound(id);
                     sqlEntity.Dispose();
 
                     File.Delete(path);
@@ -182,13 +176,20 @@ namespace DeepSound.Helpers.MediaPlayerController
             }
         }
 
-        [BroadcastReceiver()]
+        [BroadcastReceiver]
         [IntentFilter(new[] { DownloadManager.ActionDownloadComplete })]
         private class OnDownloadComplete : BroadcastReceiver
         {
-            public Context ActivityContext;
-            public string TypeActivity;
-            public SoundDataObject Sound;
+            private Context ActivityContext;
+            private string TypeActivity;
+            private static SoundDataObject Sound;
+             
+            public void SetData(Context activityContext, string fromActivity, SoundDataObject sound)
+            {
+                ActivityContext = activityContext;
+                TypeActivity = fromActivity;
+                Sound = sound;
+            }
              
             public override void OnReceive(Context context, Intent intent)
             {
@@ -215,9 +216,9 @@ namespace DeepSound.Helpers.MediaPlayerController
 
                                 ActivityManager.RunningAppProcessInfo appProcessInfo = new ActivityManager.RunningAppProcessInfo();
                                 ActivityManager.GetMyMemoryState(appProcessInfo);
-                                if (appProcessInfo.Importance == Importance.Foreground ||  appProcessInfo.Importance == Importance.Background)
+                                if (appProcessInfo.Importance == Importance.Foreground || appProcessInfo.Importance == Importance.Background)
                                 {
-                                    sqlEntity.InsertOrUpdate_LatestDownloadsSound(Sound.Id, downloadedPath);
+                                    sqlEntity.InsertOrUpdate_LatestDownloadsSound(Sound , downloadedPath);
                                     if (TypeActivity == "Main")
                                     {
                                         if (ActivityContext is HomeActivity tabbedMain)
@@ -235,12 +236,14 @@ namespace DeepSound.Helpers.MediaPlayerController
                                 }
                                 else
                                 {
-                                    sqlEntity.InsertOrUpdate_LatestDownloadsSound(Sound.Id, downloadedPath);
+                                    //sqlEntity.InsertOrUpdate_LatestDownloadsSound(Sound.Id, downloadedPath);
                                 }
                             }
                         }
 
                         sqlEntity.Dispose();
+                        Sound = null;
+                        ActivityContext = null;
                     }
                 }
                 catch (Exception exception)

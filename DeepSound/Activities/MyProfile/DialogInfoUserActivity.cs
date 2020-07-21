@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -8,13 +10,17 @@ using Android.Views;
 using Android.Widget;
 using DeepSound.Activities.MyContacts;
 using DeepSound.Activities.Tabbes;
+using DeepSound.Helpers.Ads;
 using DeepSound.Helpers.CacheLoaders;
 using DeepSound.Helpers.Controller;
 using DeepSound.Helpers.Fonts;
+using DeepSound.Helpers.Model;
 using DeepSound.Helpers.Utils;
 using DeepSoundClient.Classes.Global;
 using DeepSoundClient.Classes.User;
+using DeepSoundClient.Requests;
 using Newtonsoft.Json;
+using Xamarin.Facebook.Ads;
 
 namespace DeepSound.Activities.MyProfile
 {
@@ -143,6 +149,11 @@ namespace DeepSound.Activities.MyProfile
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.IonIcons, IconEmail, IonIconsFonts.AndroidMail);
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.IonIcons, IconWebsite, IonIconsFonts.AndroidGlobe);
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.IonIcons, IconFacebook, IonIconsFonts.SocialFacebookOutline);
+
+                var nativeAdLayout = FindViewById<NativeAdLayout>(Resource.Id.native_ad_container);
+                nativeAdLayout.Visibility = ViewStates.Gone;
+
+                AdsFacebook.InitNative(this, nativeAdLayout, null);
             }
             catch (Exception e)
             {
@@ -282,17 +293,16 @@ namespace DeepSound.Activities.MyProfile
             }
         }
 
-    
-        #endregion
 
-        private void SetData()
+        #endregion
+         
+        private void LoadDataUser()
         {
             try
             {
-                DataUser = JsonConvert.DeserializeObject<UserDataObject>(Intent.GetStringExtra("ItemDataUser"));
                 if (DataUser != null)
                 {
-                    GlideImageLoader.LoadImage(this, DataUser.Avatar, Image, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
+                    GlideImageLoader.LoadImage(this, DataUser.Avatar, Image, ImageStyle.CenterCrop, ImagePlaceholders.Drawable,false);
 
                     Username.Text = DeepSoundTools.GetNameFinal(DataUser);
                     CountryText.Text = DataUser.CountryId == 0 ? GetText(Resource.String.Lbl_Unknown) : DeepSoundTools.GetCountry(DataUser.CountryId - 1) ?? DataUser.CountryName;
@@ -306,7 +316,7 @@ namespace DeepSound.Activities.MyProfile
                     {
                         LayoutEmail.Visibility = ViewStates.Gone;
                     }
-                   
+
 
                     GenderText.Text = DeepSoundTools.GetGender(DataUser.Gender);
                     FontUtils.SetTextViewIcon(FontsIconFrameWork.IonIcons, IconGender, DataUser.Gender.Contains("male") ? IonIconsFonts.Man : IonIconsFonts.Woman);
@@ -331,14 +341,91 @@ namespace DeepSound.Activities.MyProfile
                         LayoutFacebook.Visibility = ViewStates.Gone;
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
-                Details = JsonConvert.DeserializeObject<Details>(Intent.GetStringExtra("ItemDataDetails"));
-                if (Details != null)
-                { 
-                    CountFollowers.Text = Methods.FunString.FormatPriceValue(Details.Followers);
-                    CountFollowing.Text = Methods.FunString.FormatPriceValue(Details.Following);
-                    CountTracks.Text = Methods.FunString.FormatPriceValue(Details.LatestSongs);
-                } 
+        private void StartApiService()
+        {
+
+            if (!Methods.CheckConnectivity())
+                Toast.MakeText(this, GetString(Resource.String.Lbl_CheckYourInternetConnection), ToastLength.Short).Show();
+            else
+                PollyController.RunRetryPolicyFunction(new List<Func<Task>> { StartApiFetch });
+        }
+
+        private async Task StartApiFetch()
+        {
+            var (apiStatus, respond) = await RequestsAsync.User.ProfileAsync(UserDetails.UserId.ToString(), "followers,following");
+            if (apiStatus.Equals(200))
+            {
+                if (respond is ProfileObject result)
+                {
+                    if (result.Data != null)
+                    {
+                        RunOnUiThread(() =>
+                        {
+                            try
+                            {
+                                DataUser = result.Data;
+
+                                UserDetails.Avatar = result.Data.Avatar;
+                                UserDetails.Username = result.Data.Username;
+                                UserDetails.IsPro = result.Data.IsPro.ToString();
+                                UserDetails.Url = result.Data.Url;
+                                UserDetails.FullName = result.Data.Name;
+
+                                LoadDataUser();
+
+                                if (result.Details != null)
+                                {
+                                    Details = result.Details;
+
+                                    CountFollowers.Text = Methods.FunString.FormatPriceValue(Details.Followers);
+                                    CountFollowing.Text = Methods.FunString.FormatPriceValue(Details.Following);
+                                    CountTracks.Text = Methods.FunString.FormatPriceValue(Details.LatestSongs);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                Methods.DisplayReportResult(this, respond);
+            }
+        }
+
+
+        private void SetData()
+        {
+            try
+            {
+                var UserId = Intent.GetStringExtra("UserId") ?? "";
+                if (string.IsNullOrEmpty(UserId))
+                {
+                    if (!string.IsNullOrEmpty(Intent.GetStringExtra("ItemDataUser"))) 
+                        DataUser = JsonConvert.DeserializeObject<UserDataObject>(Intent.GetStringExtra("ItemDataUser"));
+
+                    LoadDataUser();
+
+                    Details = JsonConvert.DeserializeObject<Details>(Intent.GetStringExtra("ItemDataDetails"));
+                    if (Details != null)
+                    {
+                        CountFollowers.Text = Methods.FunString.FormatPriceValue(Details.Followers);
+                        CountFollowing.Text = Methods.FunString.FormatPriceValue(Details.Following);
+                        CountTracks.Text = Methods.FunString.FormatPriceValue(Details.LatestSongs);
+                    } 
+                }
+                else
+                    StartApiService(); 
             }
             catch (Exception e)
             {

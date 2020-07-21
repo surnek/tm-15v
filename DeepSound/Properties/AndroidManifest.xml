@@ -7,16 +7,16 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 	<uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW" />
-	<uses-permission android:name="android.permission.BROADCAST_SMS" /> 
+	<uses-permission android:name="android.permission.BROADCAST_SMS" />
 	<uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -24,11 +24,11 @@
 	<uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
 	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 	<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-  <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-  <uses-permission android:name="com.DeepSound.Android.permission.C2D_MESSAGE" />
-  <!--<uses-permission android:name="com.android.vending.BILLING" />-->
-  <permission android:name="com.DeepSound.Android.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-	<application android:name=".MainApplication" android:fullBackupContent="@xml/my_backup_rules" android:allowBackup="false" android:label="DeepSound" android:largeHeap="true" android:supportsRtl="@string/Is_arabic" tools:ignore="GoogleAppIndexingWarning" android:icon="@mipmap/icon" android:roundIcon="@mipmap/icon_round" android:theme="@style/MyTheme" android:hardwareAccelerated="true" android:requestLegacyExternalStorage="true"  tools:replace="android:icon, android:label, android:theme, android:name, android:allowBackup, android:supportsRtl">
+	<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+	<uses-permission android:name="com.DeepSound.Android.permission.C2D_MESSAGE" />
+	<!--<uses-permission android:name="com.android.vending.BILLING" />-->
+	<permission android:name="com.DeepSound.Android.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<application android:name=".MainApplication" android:fullBackupContent="@xml/my_backup_rules" android:allowBackup="false" android:label="DeepSound" android:largeHeap="true" android:supportsRtl="@string/Is_arabic" tools:ignore="GoogleAppIndexingWarning" android:icon="@mipmap/icon" android:roundIcon="@mipmap/icon_round" android:theme="@style/MyTheme" android:hardwareAccelerated="true" android:requestLegacyExternalStorage="true" tools:replace="android:icon, android:label, android:theme, android:name, android:allowBackup, android:supportsRtl">
 		<!-- Google Maps /Places  API Key -->
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="@string/google_key" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
@@ -36,8 +36,8 @@
 		<activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 		<activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:theme="@style/Base.Theme.AppCompat" />
 		<activity android:name="com.yalantis.ucrop.UCropActivity" android:screenOrientation="portrait" android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-    <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="false" />
-    <activity android:name=".Tabbed_Main_Activity" android:theme="@style/MyTheme" android:label="appname">
+		<meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="false" />
+		<activity android:name=".Tabbed_Main_Activity" android:theme="@style/MyTheme" android:label="appname">
 			<intent-filter>
 				<data android:scheme="https" android:host="appname" />
 				<action android:name="android.intent.action.VIEW" />

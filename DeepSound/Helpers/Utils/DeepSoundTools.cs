@@ -1,5 +1,6 @@
 ﻿using System;
 using Android.App;
+using DeepSoundClient;
 using DeepSoundClient.Classes.Global;
 
 namespace DeepSound.Helpers.Utils
@@ -86,6 +87,43 @@ namespace DeepSound.Helpers.Utils
             {
                 Console.WriteLine(e);
                 return "";
+            }
+        }
+
+        /// <summary>
+        /// var ImageUrl = !item.Thumbnail.Contains(DeepSoundClient.Client.WebsiteUrl) ? DeepSoundTools.GetTheFinalLink(item.Thumbnail) : item.Thumbnail;
+        /// ['amazone_s3'] == 1   >> https://bucket.s3.amazonaws.com . '/' . $media;
+        /// ['ftp_upload'] == 1   >> "http://".$wo['config']['ftp_endpoint'] . '/' . $media;
+        /// </summary>
+        /// <param name="media"></param>
+        /// <returns></returns>
+        public static string GetTheFinalLink(string media)
+        {
+            try
+            {
+                var path = media;
+                var config = ListUtils.SettingsSiteList;
+                if (!string.IsNullOrEmpty(config?.S3Upload) && config?.S3Upload == "on")
+                {
+                    path = "https://"+ config.S3BucketName + ".s3.amazonaws.com"  + "/" + media;
+                    return path;
+                }
+                  
+                if (!string.IsNullOrEmpty(config?.FtpUpload) && config?.FtpUpload == "on")
+                {
+                    path =  config.FtpEndpoint + "/" + media;
+                    return path;
+                }
+                 
+                if (!media.Contains(Client.WebsiteUrl))
+                    path = Client.WebsiteUrl + "/" + media;
+
+                return path;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return media;
             }
         }
 

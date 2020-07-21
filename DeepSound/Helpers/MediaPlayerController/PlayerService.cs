@@ -48,7 +48,7 @@ namespace DeepSound.Helpers.MediaPlayerController
         public static string ActionSkip;
         public static string ActionRewind;
         public static string ActionToggle;
-        private NotificationCompat.Builder Notification;
+        private static NotificationCompat.Builder Notification;
         private RemoteViews BigViews, SmallViews;
         private readonly string NotificationChannelId = "deepsound_ch_1";
         private NotificationManager MNotificationManager;
@@ -549,6 +549,7 @@ namespace DeepSound.Helpers.MediaPlayerController
             try
             {
                 MNotificationManager.CancelAll();
+                Notification = null;
             }
             catch (Exception e)
             {

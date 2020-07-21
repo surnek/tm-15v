@@ -96,7 +96,7 @@ namespace DeepSound.Activities.Albums
 
                 SetDataAlbums();
 
-                AdsGoogle.Ad_Interstitial(Context);
+                AdsGoogle.Ad_Interstitial(Activity);
 
                 base.OnViewCreated(view, savedInstanceState);
             }
@@ -315,21 +315,15 @@ namespace DeepSound.Activities.Albums
 
                         var count = !string.IsNullOrEmpty(AlbumsObject.CountSongs) ? AlbumsObject.CountSongs : AlbumsObject.SongsCount ?? "0";
 
-                        CountSoungAlbumText.Text = count + " " + Context.GetText(Resource.String.Lbl_Songs) + " - " + AlbumsObject.Purchases + " " + Context.GetText(Resource.String.Lbl_Purchases);
+                        var text = count + " " + Context.GetText(Resource.String.Lbl_Songs); 
+                        if (AppSettings.ShowCountPurchases)
+                            text = text + " - " + AlbumsObject.Purchases + " " + Context.GetText(Resource.String.Lbl_Purchases);
+
+                        CountSoungAlbumText.Text = text;
                         NameUserText.Text = DeepSoundTools.GetNameFinal(AlbumsObject.Publisher ?? AlbumsObject.UserData);
 
-                        var imageUrl = string.Empty; 
-                        if (!string.IsNullOrEmpty(AlbumsObject.ThumbnailOriginal))
-                        {
-                            if (!AlbumsObject.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                                imageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + AlbumsObject.ThumbnailOriginal;
-                            else
-                                imageUrl = AlbumsObject.ThumbnailOriginal;
-                        }
-
-                        if (string.IsNullOrEmpty(imageUrl))
-                            imageUrl = AlbumsObject.Thumbnail;
-                         
+                        var imageUrl = AlbumsObject.Thumbnail; 
+                          
                         FullGlideRequestBuilder.Load(imageUrl).Into(ImageCover);
                         FullGlideRequestBuilder.Load(imageUrl).Into(ImageAlbum);
 

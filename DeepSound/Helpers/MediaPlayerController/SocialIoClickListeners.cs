@@ -291,7 +291,7 @@ namespace DeepSound.Helpers.MediaPlayerController
                 }
                 else if (text == MainContext.GetText(Resource.String.Lbl_Copy))
                 {
-                    OnMenuCopyOnClick(MoreSongArgs.SongsClass.AudioLocation);
+                    OnMenuCopyOnClick(MoreSongArgs.SongsClass.Url);
                 }
             }
             catch (Exception e)
@@ -358,17 +358,14 @@ namespace DeepSound.Helpers.MediaPlayerController
                                             break;
                                     }
 
-                                    if (mAdapter != null)
+                                    if (mAdapter != null && dataSong != null)
                                     {
-                                        if (dataSong is SoundDataObject data)
-                                        {
-                                            mAdapter.SoundsList.Remove(data);
+                                        mAdapter.SoundsList.Remove(dataSong);
 
-                                            int index = mAdapter.SoundsList.IndexOf(data);
-                                            if (index >= 0)
-                                            {
-                                                mAdapter.NotifyItemRemoved(index);
-                                            }
+                                        int index = mAdapter.SoundsList.IndexOf(dataSong);
+                                        if (index >= 0)
+                                        {
+                                            mAdapter.NotifyItemRemoved(index);
                                         }
                                     }
 
@@ -580,7 +577,7 @@ namespace DeepSound.Helpers.MediaPlayerController
                 else
                 {
                     likeButton.SetImageResource(Resource.Drawable.icon_player_dislike);
-                    likeButton.SetColorFilter(Color.ParseColor("#f55a4e"), PorterDuff.Mode.Multiply);
+                    likeButton.SetColorFilter(Color.ParseColor("#f55a4e"));
                     likeButton.Tag = "Disliked";
                     return true;
                 }

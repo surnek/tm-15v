@@ -49,21 +49,8 @@ namespace DeepSound.Helpers.CacheLoaders
                 { 
                     title.Text = Methods.FunString.DecodeString(PlaylistList[position].Title);
                     seconderText.Text = PlaylistList[position].CategoryName + " " + ActivityContext.GetText(Resource.String.Lbl_Music);
-
-                    var ImageUrl = string.Empty;
-
-                    if (!string.IsNullOrEmpty(PlaylistList[position].ThumbnailOriginal))
-                    {
-                        if (!PlaylistList[position].ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                            ImageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + PlaylistList[position].ThumbnailOriginal;
-                        else
-                            ImageUrl = PlaylistList[position].ThumbnailOriginal;
-                    }
-
-                    if (string.IsNullOrEmpty(ImageUrl))
-                        ImageUrl = PlaylistList[position].Thumbnail;
-
-                        FullGlideRequestBuilder.Load(ImageUrl).Into(mainFeaturedImage);
+                     
+                     FullGlideRequestBuilder.Load(PlaylistList[position].Thumbnail).Into(mainFeaturedImage);
                 }
 
                 if (!layout.HasOnClickListeners)

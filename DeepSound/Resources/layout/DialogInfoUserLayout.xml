@@ -32,7 +32,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#4D000000" />
+                    android:background="@xml/gradientblack" />
                 <TextView
 					android:id="@+id/username"
                     android:layout_width="match_parent"
@@ -115,8 +115,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/spacing_medium"
-                                    android:textSize="20sp"
-                                    
+                                    android:textSize="20sp" 
                                     android:text="#" />
                                 <TextView
                                     android:id="@+id/CountryText"
@@ -124,8 +123,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/Lbl_Country"
                                     android:gravity="start"
-                                    android:layout_gravity="center"
-                                    
+                                    android:layout_gravity="center" 
                                     android:textSize="15sp"
                                     android:layout_alignParentEnd="true"
                                     android:layout_marginStart="0dp" />
@@ -157,7 +155,6 @@
                                     android:text="0"
 									android:textSize="18sp"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    
                                     android:textStyle="bold" />
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -184,7 +181,6 @@
                                     android:text="0"
 									android:textSize="18sp"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    
                                     android:textStyle="bold" />
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -211,7 +207,6 @@
                                     android:text="0"
 									android:textSize="18sp"
                                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                                    
                                     android:textStyle="bold" />
                                 <TextView
                                     android:id="@+id/textView13"
@@ -248,7 +243,6 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:textSize="20sp"
-                                
                                 android:layout_marginStart="5dp" />
                             <TextView
                                 android:id="@+id/EmailText"
@@ -257,7 +251,6 @@
                                 android:text="@string/Lbl_Email"
                                 android:gravity="start"
                                 android:layout_gravity="center"
-                                
                                 android:textSize="15sp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginStart="0dp" />
@@ -280,7 +273,6 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:textSize="20sp"
-                                
                                 android:layout_marginStart="5dp" />
                             <TextView
                                 android:id="@+id/GenderText"
@@ -289,7 +281,6 @@
                                 android:text="@string/Lbl_Gender"
                                 android:gravity="start"
                                 android:layout_gravity="center"
-                                
                                 android:textSize="15sp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginStart="0dp" />
@@ -312,7 +303,6 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:textSize="20sp"
-                                
                                 android:layout_marginStart="5dp" />
                             <TextView
                                 android:id="@+id/WebsiteText"
@@ -321,7 +311,6 @@
                                 android:text="@string/Lbl_Website"
                                 android:gravity="start"
                                 android:layout_gravity="center"
-                                
                                 android:textSize="15sp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginStart="0dp" />
@@ -344,7 +333,6 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:textSize="20sp"
-                                
                                 android:layout_marginStart="5dp" />
                             <TextView
                                 android:id="@+id/FacebookText"
@@ -353,7 +341,6 @@
                                 android:text="@string/Lbl_Facebook"
                                 android:gravity="start"
                                 android:layout_gravity="center"
-                                
                                 android:textSize="15sp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginStart="0dp" />
@@ -361,6 +348,11 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </RelativeLayout>
+            <include layout="@layout/fb_native_ad_unit"
+                android:id="@+id/native_ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_large" />

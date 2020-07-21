@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using AFollestad.MaterialDialogs;
-using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.OS;
@@ -9,7 +8,6 @@ using Android.Support.V7.App;
 using Android.Support.V7.Preferences;
 using Android.Views;
 using Android.Widget;
-using DeepSound.Activities.Artists;
 using DeepSound.Activities.Blog;
 using DeepSound.Activities.Genres;
 using DeepSound.Activities.MyProfile;
@@ -32,7 +30,7 @@ namespace DeepSound.Activities.SettingsUser
         private Preference PasswordPref, BlockedUsersPref, HelpPref, InterestPref, AboutPref, DeleteAccountPref, LogoutPref, GoProPref, WithdrawalsPref;
         private Preference NightMode, TwoFactorPref, ManageSessionsPref;
         private readonly SettingsActivity ActivityContext;
-        private string SNightModePref, DialogType;
+        private string DialogType;
         #endregion
 
         #region General

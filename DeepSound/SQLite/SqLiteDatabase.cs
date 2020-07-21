@@ -960,7 +960,7 @@ namespace DeepSound.SQLite
             }
         }
          
-        public void InsertOrUpdate_LatestDownloadsSound(long soundId, string soundPath)
+        public void InsertOrUpdate_LatestDownloadsSound(SoundDataObject info, string soundPath)
         {
             try
             {
@@ -968,7 +968,7 @@ namespace DeepSound.SQLite
                 {
                     if (Connection == null) return;
 
-                    var select = Connection.Table<DataTables.LatestDownloadsTb>().FirstOrDefault(a => a.Id == soundId);
+                    var select = Connection.Table<DataTables.LatestDownloadsTb>().FirstOrDefault(a => a.Id == info.Id);
                     if (select != null)
                     {
                         //select.SoundName = soundId + ".mp3";
@@ -984,22 +984,85 @@ namespace DeepSound.SQLite
         }
          
         //Get LatestDownloads Sound
-        public ObservableCollection<SoundDataObject> Get_LatestDownloadsSound()
+        public List<SoundDataObject> Get_LatestDownloadsSound()
         {
             try
             {
                 using (Connection = OpenConnection())
                 {
-                    if (Connection == null) return new ObservableCollection<SoundDataObject>(); 
+                    if (Connection == null) return new List<SoundDataObject>(); 
 
                     var select = Connection.Table<DataTables.LatestDownloadsTb>().ToList();
                     if (select.Count > 0)
                     {
-                        var list = new ObservableCollection<SoundDataObject>();
+                        var list = new List<SoundDataObject>();
                         foreach (var item in select)
-                        {
-                            var db = Mapper.Map<SoundDataObject>(item);
-                            db.IsPlay = false;
+                        { 
+                            var db = new SoundDataObject()
+                            {
+                                ItunesAffiliateUrl = item.ItunesAffiliateUrl,
+                                ThumbnailOriginal = item.ThumbnailOriginal,
+                                AudioLocationOriginal = item.AudioLocationOriginal,
+                                Publisher = new UserDataObject(),
+                                OrgDescription = item.OrgDescription,
+                                TimeFormatted = item.TimeFormatted,
+                                TagsDefault = item.TagsDefault,
+                                TagsArray = new List<string>(),
+                                TagsFiltered = new List<string>(),
+                                Url = item.Url,
+                                CategoryName = item.CategoryName,
+                                SecureUrl = item.SecureUrl,
+                                SongArray = new SongArray(),
+                                ItunesToken = item.ItunesToken,
+                                CountLikes = item.CountLikes,
+                                CountViews = item.CountViews,
+                                CountShares = item.CountShares,
+                                CountComment = item.CountComment,
+                                CountFavorite = item.CountFavorite,
+                                IsDisLiked = item.IsDisLiked,
+                                IsOwner = item.IsOwner,
+                                IsLiked = item.IsLiked,
+                                IsFavoriated = item.IsFavoriated,
+                                CanListen = item.CanListen,
+                                AlbumName = item.AlbumName,
+                                ItunesTokenUrl = item.ItunesTokenUrl,
+                                DeezerUrl = item.DeezerUrl,
+                                Comments = new List<CommentsDataObject>(),
+                                CountDislikes = item.CountDislikes,
+                                IsPurchased = item.IsPurchased,
+                                Src = item.Src,
+                                DisplayEmbed = item.DisplayEmbed,
+                                Id = item.Id,
+                                UserId = item.UserId,
+                                AudioId = item.AudioId,
+                                Title = item.Title,
+                                Description = item.Description,
+                                Tags = item.Tags,
+                                Thumbnail = item.Thumbnail,
+                                Availability = item.Availability,
+                                AgeRestriction = item.AgeRestriction,
+                                Time = item.Time,
+                                Views = item.Views,
+                                ArtistId = item.ArtistId,
+                                AlbumId = item.AlbumId,
+                                SortOrder = item.SortOrder,
+                                Price = item.Price,
+                                DemoDuration = item.DemoDuration,
+                                AudioLocation = item.AudioLocation,
+                                DemoTrack = item.DemoTrack,
+                                CategoryId = item.CategoryId,
+                                Registered = item.Registered,
+                                Size = item.Size,
+                                DarkWave = item.DarkWave,
+                                LightWave = item.LightWave,
+                                Shares = item.Shares,
+                                Spotlight = item.Spotlight,
+                                Ffmpeg = item.Ffmpeg,
+                                Lyrics = item.Lyrics,
+                                AllowDownloads = item.AllowDownloads,
+                                Duration = item.Duration,
+                                IsPlay = false,
+                            };
                              
                             if (!string.IsNullOrEmpty(item.Publisher))
                                 db.Publisher = JsonConvert.DeserializeObject<UserDataObject>(item.Publisher);
@@ -1023,19 +1086,19 @@ namespace DeepSound.SQLite
                     }
                     else
                     {
-                        return new ObservableCollection<SoundDataObject>();
+                        return new List<SoundDataObject>();
                     }
                 }
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                return new ObservableCollection<SoundDataObject>();
+                return new List<SoundDataObject>();
             }
         }
 
         //Remove LatestDownloads Sound
-        public void Remove_LatestDownloadsSound(int soundId)
+        public void Remove_LatestDownloadsSound(long soundId)
         {
             try
             {
@@ -1063,7 +1126,7 @@ namespace DeepSound.SQLite
                 using (Connection = OpenConnection())
                 {
                     if (Connection == null) return null;
-
+                     
                     var select = Connection.Table<DataTables.LatestDownloadsTb>().FirstOrDefault(a => a.Id == soundId);
                     if (select != null)
                     {
@@ -1118,7 +1181,7 @@ namespace DeepSound.SQLite
                         {
                             Id = user.User.Id.ToString(),
                             GetCountSeen = user.GetCountSeen,
-                            GetLastMessage = JsonConvert.SerializeObject(user.GetLastMessage),
+                            GetLastMessage = JsonConvert.SerializeObject(user.GetLastMessage?.GetLastMessageClass),
                             User = JsonConvert.SerializeObject(user.User),
                             ChatTime = user.ChatTime,
                         };
@@ -1135,7 +1198,7 @@ namespace DeepSound.SQLite
                                 update.User = JsonConvert.SerializeObject(user.User);
 
                             if (user.GetLastMessage != null)
-                                update.GetLastMessage = JsonConvert.SerializeObject(user.GetLastMessage);
+                                update.GetLastMessage = JsonConvert.SerializeObject(user.GetLastMessage?.GetLastMessageClass);
 
                             update.ChatTime = user.ChatTime;
 
@@ -1187,10 +1250,14 @@ namespace DeepSound.SQLite
                             {
                                 GetCountSeen = user.GetCountSeen,
                                 ChatTime = user.ChatTime,
+                                GetLastMessage = new DataConversation.GetLastMessageUnion(),
                             };
 
                             if (user.GetLastMessage != null)
-                                item.GetLastMessage = JsonConvert.DeserializeObject<ChatMessagesDataObject>(user.GetLastMessage);
+                                item.GetLastMessage = new DataConversation.GetLastMessageUnion()
+                                {
+                                    GetLastMessageClass = JsonConvert.DeserializeObject<ChatMessagesDataObject>(user.GetLastMessage),
+                                };
 
                             if (user.User != null)
                                 item.User = JsonConvert.DeserializeObject<UserDataObject>(user.User);
@@ -1225,7 +1292,10 @@ namespace DeepSound.SQLite
                         {
                             GetCountSeen = user.GetCountSeen,
                             ChatTime = user.ChatTime,
-                            GetLastMessage = JsonConvert.DeserializeObject<ChatMessagesDataObject>(user.GetLastMessage),
+                            GetLastMessage = new DataConversation.GetLastMessageUnion()
+                            {
+                                GetLastMessageClass = JsonConvert.DeserializeObject<ChatMessagesDataObject>(user.GetLastMessage),
+                            },
                             User = JsonConvert.DeserializeObject<UserDataObject>(user.User),
                         }).ToList();
 

@@ -216,11 +216,11 @@ namespace DeepSound.Activities.Default
 
                     FbLoginButton = FindViewById<LoginButton>(Resource.Id.fblogin_button);
                     FbLoginButton.Visibility = ViewStates.Visible;
-                    //FbLoginButton.SetReadPermissions(new List<string>
-                    //{
-                    //    "email",
-                    //    "public_profile"
-                    //});
+                    FbLoginButton.SetPermissions(new List<string>
+                    {
+                        "email",
+                        "public_profile"
+                    });
 
                     MFbCallManager = CallbackManagerFactory.Create();
                     FbLoginButton.RegisterCallback(MFbCallManager, this);
@@ -315,14 +315,10 @@ namespace DeepSound.Activities.Default
                     .RequestServerAuthCode(AppSettings.ClientId)
                     .RequestProfile().RequestEmail().Build();
 
-                if (MGoogleApiClient == null)
-                {
-                    // Build a GoogleApiClient with access to the Google Sign-In API and the options specified by gso.
-                    MGoogleApiClient = new GoogleApiClient.Builder(this, this, this)
-                        .EnableAutoManage(this, this)
-                        .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                        .Build();
-                }
+                MGoogleApiClient ??= new GoogleApiClient.Builder(this, this, this)
+                    .EnableAutoManage(this, this)
+                    .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .Build();
 
                 MGoogleApiClient.Connect();
                  
@@ -498,7 +494,7 @@ namespace DeepSound.Activities.Default
                 UserDetails.FullName = EmailEditText.Text;
                 UserDetails.Password = PasswordEditText.Text;
                 UserDetails.AccessToken = auth.AccessToken;
-                if (auth.Data.Id != null) UserDetails.UserId = auth.Data.Id;
+                UserDetails.UserId = auth.Data.Id;
                 UserDetails.Status = "Active";
                 UserDetails.Cookie = auth.AccessToken;
                 UserDetails.Email = EmailEditText.Text;

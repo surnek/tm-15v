@@ -85,7 +85,7 @@ namespace DeepSound.Activities.MyContacts
 
                 StartApiService();
 
-                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Context);
+                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Activity);
  
                 base.OnViewCreated(view, savedInstanceState);
             }

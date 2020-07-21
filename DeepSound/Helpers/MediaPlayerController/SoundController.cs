@@ -582,7 +582,8 @@ namespace DeepSound.Helpers.MediaPlayerController
                         if (!Directory.Exists(Methods.Path.FolderDcimSound))
                             Directory.CreateDirectory(Methods.Path.FolderDcimSound);
 
-                        string getFile = Methods.MultiMedia.GetMediaFrom_Gallery(Methods.Path.FolderDcimSound, item.Title);
+                        var title = item.AudioLocation.Split("/Sound/").Last().Replace("%20", " ");
+                        string getFile = Methods.MultiMedia.CheckFileIfExits(Methods.Path.FolderDcimSound + title);
                         if (getFile != "File Dont Exists")
                         {
                             var dialog = new MaterialDialog.Builder(ActivityContext).Theme(AppSettings.SetTabDarkTheme ? Theme.Dark : Theme.Light);
@@ -592,8 +593,8 @@ namespace DeepSound.Helpers.MediaPlayerController
                             {
                                 try
                                 {
-                                    SoundDownload = new SoundDownloadAsyncController(item.AudioLocation, item.Title, ActivityContext);
-                                    SoundDownload?.RemoveDiskSoundFile(item.Title);
+                                    SoundDownload = new SoundDownloadAsyncController(item.AudioLocation, title, item.Id, ActivityContext);
+                                    SoundDownload?.RemoveDiskSoundFile(title , item.Id);
 
                                     BtnIconDownload.Tag = "Download";
                                     BtnIconDownload.SetImageResource(Resource.Drawable.icon_player_download);
@@ -610,7 +611,7 @@ namespace DeepSound.Helpers.MediaPlayerController
                         }
                         else
                         {
-                            SoundDownload = new SoundDownloadAsyncController(item.AudioLocation, item.Title, ActivityContext);
+                            SoundDownload = new SoundDownloadAsyncController(item.AudioLocation, item.Title, item.Id, ActivityContext);
 
                             if (!SoundDownload.CheckDownloadLinkIfExits())
                             {
@@ -985,21 +986,9 @@ namespace DeepSound.Helpers.MediaPlayerController
                                 Console.WriteLine(e);
                             }
                         }
-
-                        var imageUrl = string.Empty;
-                        if (!string.IsNullOrEmpty(soundObject.ThumbnailOriginal))
-                        {
-                            if (!soundObject.ThumbnailOriginal.Contains(DeepSoundClient.Client.WebsiteUrl))
-                                imageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + soundObject.ThumbnailOriginal;
-                            else
-                                imageUrl = soundObject.ThumbnailOriginal;
-                        }
-
-                        if (string.IsNullOrEmpty(imageUrl))
-                            imageUrl = soundObject.Thumbnail;
-
-                        FullGlideRequestBuilder.Load(imageUrl).Into(ImageCover); 
-                        GlideImageLoader.LoadImage(ActivityContext, imageUrl, ArtistImageView, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
+                         
+                        FullGlideRequestBuilder.Load(soundObject.Thumbnail).Into(ImageCover); 
+                        GlideImageLoader.LoadImage(ActivityContext, soundObject.Thumbnail, ArtistImageView, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
                          
                         TxtArtistName.Text = Methods.FunString.DecodeString(soundObject.Publisher.Name);
 
@@ -1008,9 +997,16 @@ namespace DeepSound.Helpers.MediaPlayerController
 
                         TvTitleSound.Text = Methods.FunString.DecodeString(d);
 
-                        TvDescriptionSound.Text = string.IsNullOrEmpty(soundObject.AlbumName)
-                            ? Methods.FunString.DecodeString(soundObject.CategoryName) + " " + ActivityContext.GetText(Resource.String.Lbl_Music)
-                            : Methods.FunString.DecodeString(soundObject.CategoryName)+ " " + ActivityContext.GetText(Resource.String.Lbl_Music) + ", " + ActivityContext.GetText(Resource.String.Lbl_InAlbum) + " " + Methods.FunString.DecodeString(soundObject.AlbumName);
+                        if (!AppSettings.ShowTitleAlbumOnly)
+                        {
+                            TvDescriptionSound.Text = string.IsNullOrEmpty(soundObject.AlbumName)
+                             ? Methods.FunString.DecodeString(soundObject.CategoryName) + " " + ActivityContext.GetText(Resource.String.Lbl_Music)
+                             : Methods.FunString.DecodeString(soundObject.CategoryName) + " " + ActivityContext.GetText(Resource.String.Lbl_Music) + ", " + ActivityContext.GetText(Resource.String.Lbl_InAlbum) + " " + Methods.FunString.DecodeString(soundObject.AlbumName);
+                        }
+                        else
+                        {
+                            TvDescriptionSound.Text = ActivityContext.GetText(Resource.String.Lbl_InAlbum) + " " + Methods.FunString.DecodeString(soundObject.AlbumName);
+                        }
 
                         TvSongTotalDuration.Text = soundObject.Duration;
                         TvSongCurrentDuration.Text = "0:00";
@@ -1036,7 +1032,7 @@ namespace DeepSound.Helpers.MediaPlayerController
                         TxtPlaybackSpeed.SetTextColor(Color.ParseColor("#999999"));
                           
                         var sqlEntity = new SqLiteDatabase();
-                        var dataSound = sqlEntity.Get_LatestDownloadsSound(soundObject.Id);
+                        SoundDataObject dataSound = sqlEntity.Get_LatestDownloadsSound(soundObject.Id);
                         if (dataSound != null)
                         {
                             if (!string.IsNullOrEmpty(dataSound.AudioLocation) && (dataSound.AudioLocation.Contains("file://") || dataSound.AudioLocation.Contains("content://") || dataSound.AudioLocation.Contains("storage") || dataSound.AudioLocation.Contains("/data/user/0/")))
@@ -1044,8 +1040,8 @@ namespace DeepSound.Helpers.MediaPlayerController
                                 if (!Directory.Exists(Methods.Path.FolderDcimSound))
                                     Directory.CreateDirectory(Methods.Path.FolderDcimSound);
 
-                                var title = dataSound.AudioLocation.Split("/Sound/").Last();
-                                string getFile = Methods.MultiMedia.GetMediaFrom_Gallery(Methods.Path.FolderDcimSound, title);
+                                var title = dataSound.AudioLocation.Split("/Sound/").Last().Replace("%20"," ");
+                                string getFile = Methods.MultiMedia.CheckFileIfExits(Methods.Path.FolderDcimSound + title);
                                 if (getFile != "File Dont Exists")
                                 {
                                     BtnIconDownload.Tag = "Downloaded";

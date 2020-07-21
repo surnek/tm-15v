@@ -312,7 +312,7 @@ namespace DeepSound.Activities.Default
                 Current.AccessToken = auth.AccessToken;
 
                 UserDetails.AccessToken = auth.AccessToken;
-                if (auth.Data.Id != null) UserDetails.UserId = auth.Data.Id;
+                UserDetails.UserId = auth.Data.Id;
                 UserDetails.Status = "Pending";
                 UserDetails.Cookie = auth.AccessToken;
 

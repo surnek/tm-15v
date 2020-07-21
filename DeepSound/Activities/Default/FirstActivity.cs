@@ -166,7 +166,7 @@ namespace DeepSound.Activities.Default
                 display.GetSize(size);
                 int width = size.X;
                 int height = size.Y;
-                int[] color = { Color.ParseColor("#3033c6"), Color.ParseColor("#fb0049") };
+                int[] color = { Color.ParseColor(AppSettings.BackgroundGradationColor1), Color.ParseColor(AppSettings.BackgroundGradationColor2) };
                 var (gradient, bitmap) = ColorUtils.GetGradientDrawable(this, color, width, height);
                 if (bitmap != null)
                 {

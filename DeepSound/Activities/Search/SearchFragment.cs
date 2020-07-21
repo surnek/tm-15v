@@ -127,7 +127,7 @@ namespace DeepSound.Activities.Search
 
                 GetAppData();
 
-                AdsGoogle.Ad_Interstitial(Context);
+                AdsGoogle.Ad_Interstitial(Activity);
             }
             catch (Exception e)
             {

@@ -540,9 +540,9 @@ namespace DeepSound.Activities.Chat
                                             if (lastMessage != null)
                                             {
                                                 var dataUser = LastChatActivity.MAdapter.UserList?.FirstOrDefault(a => a.User.Id == Userid);
-                                                if (dataUser != null)
+                                                if (dataUser?.GetLastMessage != null)
                                                 {
-                                                    dataUser.GetLastMessage.Text = lastMessage.Text;
+                                                    dataUser.GetLastMessage.Value.GetLastMessageClass.Text = lastMessage.Text;
                                                     int index = LastChatActivity.MAdapter.UserList.IndexOf(dataUser);
 
                                                     LastChatActivity.MAdapter.UserList.Move(index, 0);

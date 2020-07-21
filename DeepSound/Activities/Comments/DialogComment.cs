@@ -223,7 +223,7 @@ namespace DeepSound.Activities.Comments
                     var item = MAdapter.GetItem(position);
                     if (item != null)
                     {
-                        if (item.UserData.Id != null) GlobalContext.OpenProfile(item.UserData.Id, item.UserData);
+                        GlobalContext.OpenProfile(item.UserData.Id, item.UserData);
 
                         CommentWindow.Hide();
                         CommentWindow.Dismiss();

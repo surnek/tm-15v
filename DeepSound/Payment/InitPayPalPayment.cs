@@ -26,8 +26,9 @@ namespace DeepSound.Payment
         {
             try
             {
-                InitPayPal(price, payType);
-
+                var init = InitPayPal(price, payType);
+                if (!init)
+                    return;
                 Intent intent = new Intent(ActivityContext, typeof(PaymentActivity));
                 intent.PutExtra(PayPalService.ExtraPaypalConfiguration, PayPalConfig);
                 intent.PutExtra(PaymentActivity.ExtraPayment, PayPalPayment);
@@ -39,7 +40,7 @@ namespace DeepSound.Payment
             }
         }
 
-        private void InitPayPal(string price, string payType)
+        private bool InitPayPal(string price, string payType)
         {
             try
             {
@@ -52,6 +53,9 @@ namespace DeepSound.Payment
                     currency = option.PaypalCurrency ?? "USD";
                     paypalClintId = option.PaypalId;
                 }
+
+                if (string.IsNullOrEmpty(paypalClintId))
+                    return false;
 
                 PayPalConfig = new PayPalConfiguration()
                     .ClientId(paypalClintId)
@@ -95,18 +99,24 @@ namespace DeepSound.Payment
                 IntentService = new Intent(ActivityContext, typeof(PayPalService)); 
                 IntentService.PutExtra(PayPalService.ExtraPaypalConfiguration, PayPalConfig);
                 ActivityContext.StartService(IntentService);
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-            }
+                return false;
+            } 
         }
 
         public void StopPayPalService()
         {
             try
             {
-                ActivityContext.StopService(new Intent(ActivityContext, typeof(PayPalService)));
+                if (PayPalConfig != null)
+                {
+                    ActivityContext.StopService(new Intent(ActivityContext, typeof(PayPalService)));
+                    PayPalConfig = null;
+                }
             }
             catch (Exception e)
             {

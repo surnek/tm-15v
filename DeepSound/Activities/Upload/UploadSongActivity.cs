@@ -58,21 +58,21 @@ namespace DeepSound.Activities.Upload
 
                 Methods.App.FullScreenApp(this);
                 SetTheme(AppSettings.SetTabDarkTheme ? Resource.Style.MyTheme_Dark_Base : Resource.Style.MyTheme_Base);
-                 
+
                 // Create your application here
                 SetContentView(Resource.Layout.UploadSongLayout);
-                 
+
                 //Get Value And Set Toolbar
                 InitComponent();
                 InitToolbar();
 
                 CurrencySymbol = ListUtils.SettingsSiteList?.CurrencySymbol ?? "$";
-                 
+
                 var data = Intent.GetStringExtra("SongLocation") ?? "Data not available";
                 if (data != "Data not available" && !string.IsNullOrEmpty(data))
                 {
                     PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => UploadSong(data) });
-                } 
+                }
             }
             catch (Exception e)
             {
@@ -133,7 +133,7 @@ namespace DeepSound.Activities.Upload
         }
 
         #endregion
-         
+
         #region Menu
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -172,23 +172,23 @@ namespace DeepSound.Activities.Upload
 
                 IconTags = FindViewById<TextView>(Resource.Id.IconTags);
                 TagsEditText = FindViewById<EditText>(Resource.Id.TagsEditText);
-                 
+
                 IconPrice = FindViewById<TextView>(Resource.Id.IconPrice);
                 PriceEditText = FindViewById<EditText>(Resource.Id.PriceEditText);
 
                 IconGenres = FindViewById<TextView>(Resource.Id.IconGenres);
                 GenresEditText = FindViewById<EditText>(Resource.Id.GenresEditText);
-                 
+
                 IconAvailability = FindViewById<TextView>(Resource.Id.IconAvailability);
                 RbPublic = FindViewById<RadioButton>(Resource.Id.radioPublic);
                 RbPrivate = FindViewById<RadioButton>(Resource.Id.radioPrivate);
 
                 IconAgeRestriction = FindViewById<TextView>(Resource.Id.IconAgeRestriction);
                 AgeRestrictionEditText = FindViewById<EditText>(Resource.Id.AgeRestrictionEditText);
-                 
+
                 IconAllowDownloads = FindViewById<TextView>(Resource.Id.IconAllowDownloads);
                 AllowDownloadsEditText = FindViewById<EditText>(Resource.Id.AllowDownloadsEditText);
-                  
+
                 BtnSave = FindViewById<Button>(Resource.Id.ApplyButton);
 
                 Methods.SetColorEditText(TitleEditText, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
@@ -199,7 +199,7 @@ namespace DeepSound.Activities.Upload
                 Methods.SetColorEditText(PriceEditText, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
                 Methods.SetColorEditText(AgeRestrictionEditText, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
                 Methods.SetColorEditText(AllowDownloadsEditText, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
-                 
+
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.FontAwesomeLight, IconTitle, FontAwesomeIcon.TextWidth);
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.FontAwesomeLight, IconTags, FontAwesomeIcon.Tags);
                 FontUtils.SetTextViewIcon(FontsIconFrameWork.FontAwesomeLight, IconDescription, FontAwesomeIcon.AudioDescription);
@@ -217,12 +217,12 @@ namespace DeepSound.Activities.Upload
 
                 RbPublic.Checked = true;
                 Status = "0";
-                 
+
                 if (!AppSettings.ShowPrice)
                 {
                     PriceEditText.Visibility = ViewStates.Gone;
                     IconPrice.Visibility = ViewStates.Gone;
-                } 
+                }
             }
             catch (Exception e)
             {
@@ -245,7 +245,7 @@ namespace DeepSound.Activities.Upload
                     SupportActionBar.SetHomeButtonEnabled(true);
                     SupportActionBar.SetDisplayShowHomeEnabled(true);
 
-                    toolbar.SetBackgroundResource(AppSettings.SetTabDarkTheme ?  Resource.Drawable.linear_gradient_drawable_Dark : Resource.Drawable.linear_gradient_drawable);
+                    toolbar.SetBackgroundResource(AppSettings.SetTabDarkTheme ? Resource.Drawable.linear_gradient_drawable_Dark : Resource.Drawable.linear_gradient_drawable);
                 }
             }
             catch (Exception e)
@@ -281,7 +281,7 @@ namespace DeepSound.Activities.Upload
                     GenresEditText.Touch -= GenresEditTextOnClick;
                     PriceEditText.Touch -= PriceEditTextOnClick;
                     AgeRestrictionEditText.Touch -= AgeRestrictionEditTextOnClick;
-                    AllowDownloadsEditText.Touch += AllowDownloadsEditTextOnTouch;
+                    AllowDownloadsEditText.Touch -= AllowDownloadsEditTextOnTouch;
                 }
             }
             catch (Exception e)
@@ -289,7 +289,7 @@ namespace DeepSound.Activities.Upload
                 Console.WriteLine(e);
             }
         }
-         
+
         #endregion
 
         #region Events
@@ -334,7 +334,7 @@ namespace DeepSound.Activities.Upload
                         Toast.MakeText(this, GetText(Resource.String.Lbl_PleaseChoosePrice), ToastLength.Short).Show();
                         return;
                     }
-                     
+
                     if (string.IsNullOrEmpty(AgeRestrictionEditText.Text))
                     {
                         Toast.MakeText(this, GetText(Resource.String.Lbl_PleaseChooseAgeRestriction), ToastLength.Short).Show();
@@ -355,30 +355,30 @@ namespace DeepSound.Activities.Upload
 
                     //Show a progress
                     AndHUD.Shared.Show(this, GetText(Resource.String.Lbl_Loading));
-                    (int apiStatus, var respond) = await RequestsAsync.Tracks.SubmitTrackAsync(TitleEditText.Text,DescriptionEditText.Text, LyricsEditText.Text, TagsEditText.Text, PathImage, SongLocation, IdGenres, Status,IdAgeRestriction, IdAllowDownloads, IdPrice); //Sent api 
+                    (int apiStatus, var respond) = await RequestsAsync.Tracks.SubmitTrackAsync(TitleEditText.Text, DescriptionEditText.Text, LyricsEditText.Text, TagsEditText.Text, PathImage, SongLocation, IdGenres, Status, IdAgeRestriction, IdAllowDownloads, IdPrice); //Sent api 
                     if (apiStatus.Equals(200))
                     {
                         if (respond is SubmitTrackObject result)
                         {
-                           var ffmpegSystem =  ListUtils.SettingsSiteList?.FfmpegSystem ?? "on"; 
-                           if (ffmpegSystem == "on")
-                               PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Tracks.ConvertTrackAsync(result.AudioId, result.SongLocation) });
+                            var ffmpegSystem = ListUtils.SettingsSiteList?.FfmpegSystem ?? "on";
+                            if (ffmpegSystem == "on")
+                                PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Tracks.ConvertTrackAsync(result.AudioId, result.SongLocation) });
 
-                           Toast.MakeText(this, GetText(Resource.String.Lbl_Done), ToastLength.Short).Show();
-                           AndHUD.Shared.Dismiss(this);
+                            Toast.MakeText(this, GetText(Resource.String.Lbl_Done), ToastLength.Short).Show();
+                            AndHUD.Shared.Dismiss(this);
 
-                           result.TrackData.AudioLocation =!result.TrackData.AudioLocation.Contains(Client.WebsiteUrl)
-                                   ? Client.WebsiteUrl + "/" + result.SongLocation
-                                   : result.SongLocation;
+                            result.TrackData.AudioLocation = !result.TrackData.AudioLocation.Contains(Client.WebsiteUrl)
+                                    ? Client.WebsiteUrl + "/" + result.SongLocation
+                                    : result.SongLocation;
 
-                           var dataProfileFragment = HomeActivity.GetInstance()?.ProfileFragment?.SongsFragment?.MAdapter;
-                           dataProfileFragment?.SoundsList.Insert(0, result.TrackData);
-                           dataProfileFragment?.NotifyItemInserted(dataProfileFragment.SoundsList.IndexOf(dataProfileFragment.SoundsList.FirstOrDefault()));
+                            var dataProfileFragment = HomeActivity.GetInstance()?.ProfileFragment?.SongsFragment?.MAdapter;
+                            dataProfileFragment?.SoundsList.Insert(0, result.TrackData);
+                            dataProfileFragment?.NotifyItemInserted(dataProfileFragment.SoundsList.IndexOf(dataProfileFragment.SoundsList.FirstOrDefault()));
 
-                           Finish();
+                            Finish();
                         }
                     }
-                    else 
+                    else
                     {
                         if (respond is ErrorObject error)
                         {
@@ -390,10 +390,8 @@ namespace DeepSound.Activities.Upload
                             AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
                         }
 
-                        Methods.DisplayReportResult(this, respond);
-                    } 
-
-                    AndHUD.Shared.Dismiss(this);
+                        //Methods.DisplayReportResult(this, respond);
+                    }
                 }
             }
             catch (Exception exception)
@@ -501,7 +499,7 @@ namespace DeepSound.Activities.Upload
         {
             try
             {
-                if (e.Event.Action != MotionEventActions.Down)  return;
+                if (e.Event.Action != MotionEventActions.Down) return;
 
                 TypeDialog = "Genres";
 
@@ -529,7 +527,7 @@ namespace DeepSound.Activities.Upload
                 if (e.Event.Action != MotionEventActions.Down) return;
 
                 TypeDialog = "AgeRestriction";
-                 
+
                 var dialogList = new MaterialDialog.Builder(this).Theme(AppSettings.SetTabDarkTheme ? AFollestad.MaterialDialogs.Theme.Dark : AFollestad.MaterialDialogs.Theme.Light);
 
                 var arrayAdapter = new List<string>
@@ -589,7 +587,7 @@ namespace DeepSound.Activities.Upload
             try
             {
                 base.OnActivityResult(requestCode, resultCode, data);
-            
+
                 var result = CropImage.GetActivityResult(data);
 
                 //If its from Camera or Gallery
@@ -605,7 +603,7 @@ namespace DeepSound.Activities.Upload
                             {
                                 var file = Uri.FromFile(new File(resultUri.Path));
                                 GlideImageLoader.LoadImage(this, file.Path, PlaylistImage, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
-                                PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => UploadImage(file.Path) }); 
+                                PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => UploadImage(file.Path) });
                             }
                             else
                             {
@@ -637,7 +635,7 @@ namespace DeepSound.Activities.Upload
                 {
                     if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
                     {
-                        OpenDialogGallery();
+                         OpenDialogGallery();
                     }
                     else
                     {
@@ -652,7 +650,7 @@ namespace DeepSound.Activities.Upload
         }
 
         #endregion
-         
+
         #region MaterialDialog
 
         public void OnClick(MaterialDialog p0, DialogAction p1)
@@ -660,7 +658,7 @@ namespace DeepSound.Activities.Upload
             try
             {
                 if (p1 == DialogAction.Positive)
-                { 
+                {
                 }
                 else if (p1 == DialogAction.Negative)
                 {
@@ -696,11 +694,11 @@ namespace DeepSound.Activities.Upload
                 }
                 else if (TypeDialog == "AllowDownloads")
                 {
-                    if (itemId.ToString() == GetString(Resource.String.Lbl_Yes))
+                    if (text == GetString(Resource.String.Lbl_Yes))
                     {
                         IdAllowDownloads = "1";
                     }
-                    else if (itemId.ToString() == GetString(Resource.String.Lbl_No))
+                    else if (text == GetString(Resource.String.Lbl_No))
                     {
                         IdAllowDownloads = "0";
                     }
@@ -727,12 +725,12 @@ namespace DeepSound.Activities.Upload
                 else
                 {
                     // Check if we're running on Android 5.0 or higher
-                    if ((int) Build.VERSION.SdkInt < 23)
+                    if ((int)Build.VERSION.SdkInt < 23)
                     {
                         Methods.Path.Chack_MyFolder();
 
                         //Open Image 
-                        var myUri = Uri.FromFile(new File(Methods.Path.FolderDcimImage,Methods.GetTimestamp(DateTime.Now) + ".jpeg"));
+                        var myUri = Uri.FromFile(new File(Methods.Path.FolderDcimImage, Methods.GetTimestamp(DateTime.Now) + ".jpeg"));
                         CropImage.Builder()
                             .SetInitialCropWindowPaddingRatio(0)
                             .SetAutoZoomEnabled(true)
@@ -743,13 +741,13 @@ namespace DeepSound.Activities.Upload
                     }
                     else
                     {
-                        if (!CropImage.IsExplicitCameraPermissionRequired(this) &&CheckSelfPermission(Manifest.Permission.ReadExternalStorage) == Permission.Granted &&
-                            CheckSelfPermission(Manifest.Permission.WriteExternalStorage) == Permission.Granted &&CheckSelfPermission(Manifest.Permission.Camera) == Permission.Granted)
+                        if (!CropImage.IsExplicitCameraPermissionRequired(this) && CheckSelfPermission(Manifest.Permission.ReadExternalStorage) == Permission.Granted &&
+                            CheckSelfPermission(Manifest.Permission.WriteExternalStorage) == Permission.Granted && CheckSelfPermission(Manifest.Permission.Camera) == Permission.Granted)
                         {
                             Methods.Path.Chack_MyFolder();
 
                             //Open Image 
-                            var myUri = Uri.FromFile(new File(Methods.Path.FolderDcimImage,Methods.GetTimestamp(DateTime.Now) + ".jpeg"));
+                            var myUri = Uri.FromFile(new File(Methods.Path.FolderDcimImage, Methods.GetTimestamp(DateTime.Now) + ".jpeg"));
                             CropImage.Builder()
                                 .SetInitialCropWindowPaddingRatio(0)
                                 .SetAutoZoomEnabled(true)
@@ -770,7 +768,7 @@ namespace DeepSound.Activities.Upload
                 Console.WriteLine(e);
             }
         }
-         
+
         private async Task UploadImage(string path)
         {
             if (!Methods.CheckConnectivity())
@@ -779,7 +777,7 @@ namespace DeepSound.Activities.Upload
             }
             else
             {
-                (int apiStatus, var respond) = await RequestsAsync.Tracks.UploadThumbnailAsync(path).ConfigureAwait(false);
+                (int apiStatus, var respond) = await RequestsAsync.Tracks.UploadThumbnailAsync(path);
                 if (apiStatus.Equals(200))
                 {
                     if (respond is UploadThumbnailObject resultUpload)
@@ -791,6 +789,10 @@ namespace DeepSound.Activities.Upload
                     {
                         var errorText = error.Error.Replace("&#039;", "'");
                         AndHUD.Shared.ShowError(this, errorText, MaskType.Clear, TimeSpan.FromSeconds(2));
+                    }
+                    else if (respond is MessageObject errorRespond)
+                    {
+                        AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
                     }
                     Methods.DisplayReportResult(this, respond);
                 }
@@ -814,25 +816,28 @@ namespace DeepSound.Activities.Upload
                     if (respond is UploadTrackObject resultUpload)
                     {
                         Toast.MakeText(this, GetText(Resource.String.Lbl_Done), ToastLength.Short).Show();
-                        AndHUD.Shared.Dismiss(this);
 
                         SongLocation = resultUpload.FilePath;
 
                         TxtSubTitle.Text = GetText(Resource.String.Lbl_subTitleUploadSong) + " " + resultUpload.FileName;
+                     
+                        AndHUD.Shared.Dismiss(this);
                     }
                 }
                 else
                 {
-                    Methods.DisplayReportResult(this, respond);
                     if (respond is ErrorObject error)
                     {
                         var errorText = error.Error.Replace("&#039;", "'");
                         AndHUD.Shared.ShowError(this, errorText, MaskType.Clear, TimeSpan.FromSeconds(2));
-                        Finish();
-                    } 
+                    }
+                    else if (respond is MessageObject errorRespond)
+                    {
+                        AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
+                    }
+                    Methods.DisplayReportResult(this, respond);
                 }
-                AndHUD.Shared.Dismiss(this);
             }
-        } 
+        }
     }
 }

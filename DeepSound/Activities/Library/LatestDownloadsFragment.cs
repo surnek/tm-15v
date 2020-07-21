@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Android.Gms.Ads;
@@ -71,7 +72,7 @@ namespace DeepSound.Activities.Library
 
                 LoadLatestDownloads();
 
-                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Context);
+                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Activity);
 
                 base.OnViewCreated(view, savedInstanceState);
             }
@@ -241,15 +242,18 @@ namespace DeepSound.Activities.Library
                     }
                 }
 
-                var item = MAdapter.GetItem(e.Position);
-                if (item != null)
+                if (e.Position > -1)
                 {
-                    item.IsPlay = true;
-                    MAdapter.NotifyItemChanged(e.Position);
+                    var item = MAdapter.GetItem(e.Position);
+                    if (item != null)
+                    {
+                        item.IsPlay = true;
+                        MAdapter.NotifyItemChanged(e.Position);
 
-                    Constant.PlayPos = e.Position;
-                    GlobalContext?.SoundController?.StartPlaySound(item, MAdapter.SoundsList, MAdapter);
-                }
+                        Constant.PlayPos = e.Position;
+                        GlobalContext?.SoundController?.StartPlaySound(item, MAdapter.SoundsList, MAdapter);
+                    }
+                }                
             }
             catch (Exception exception)
             {
@@ -269,11 +273,11 @@ namespace DeepSound.Activities.Library
                 MAdapter.SoundsList.Clear();
 
                 var sqlEntity = new SqLiteDatabase();
-                var watchOffline = sqlEntity.Get_LatestDownloadsSound();
+                List<SoundDataObject> watchOffline = sqlEntity.Get_LatestDownloadsSound();
              
                 if (watchOffline?.Count > 0)
                 { 
-                    MAdapter.SoundsList = watchOffline;
+                    MAdapter.SoundsList = new ObservableCollection<SoundDataObject>(watchOffline);
                     MAdapter.NotifyDataSetChanged();
 
                     MRecycler.Visibility = ViewStates.Visible;

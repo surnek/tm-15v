@@ -62,21 +62,8 @@ namespace DeepSound.Activities.Tabbes.Adapters
                         thirdText.Text = ActivityContext.GetText(Resource.String.Lbl_Public);
                     else
                         thirdText.Text = ActivityContext.GetText(Resource.String.Lbl_Private);
-
-                    var imageUrl = string.Empty;
-
-                    if (!string.IsNullOrEmpty(PlaylistList[position].ThumbnailReady))
-                    {
-                        if (!PlaylistList[position].ThumbnailReady.Contains(DeepSoundClient.Client.WebsiteUrl))
-                            imageUrl = DeepSoundClient.Client.WebsiteUrl + "/" + PlaylistList[position].ThumbnailReady;
-                        else
-                            imageUrl = PlaylistList[position].ThumbnailReady;
-                    }
-
-                    if (string.IsNullOrEmpty(imageUrl))
-                        imageUrl = PlaylistList[position].Thumbnail;
-
-                    FullGlideRequestBuilder.Load(imageUrl).Into(mainFeaturedImage);
+                                         
+                    FullGlideRequestBuilder.Load(PlaylistList[position].ThumbnailReady).Into(mainFeaturedImage);
                 }
 
                 if (!layout.HasOnClickListeners)

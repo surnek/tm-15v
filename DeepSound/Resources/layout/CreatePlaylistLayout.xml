@@ -144,6 +144,7 @@
                         android:layout_alignParentEnd="true"
                         android:hint="@string/Lbl_PlaylistName"
                         android:textSize="15sp"
+						android:lines="1"
                         android:layout_marginStart="3dp" />
                 </LinearLayout>
                 <!--privacy Section -->
@@ -242,7 +243,7 @@
             android:layout_height="wrap_content">
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
-                app:adSize="BANNER"
+                app:adSize="SMART_BANNER"
                 app:adUnitId="@string/banner_ad_unit_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

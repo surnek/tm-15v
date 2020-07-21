@@ -2,7 +2,6 @@
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Gms.Ads;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
@@ -14,6 +13,7 @@ using DeepSound.Helpers.Controller;
 using DeepSound.Helpers.Fonts;
 using DeepSound.Helpers.Utils;
 using DeepSoundClient;
+using Xamarin.Facebook.Ads;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace DeepSound.Activities.SettingsUser.Support
@@ -26,7 +26,6 @@ namespace DeepSound.Activities.SettingsUser.Support
         private TextView TxtAppName, TxtPackageName, TxtCountVersion;
         private TextView IconVersion, IconChangelog, IconRateApp, IconTerms, IconPrivacy, IconAbout;
         private LinearLayout LayoutChangelog, LayoutRate, LayoutTerms, LayoutPrivacy, LayoutAbout;
-        private AdView MAdView;
         private CardView CardView1, CardView2;
 
         #endregion
@@ -48,8 +47,7 @@ namespace DeepSound.Activities.SettingsUser.Support
                 InitComponent();
                 InitToolbar();
                 
-                MAdView = FindViewById<AdView>(Resource.Id.adView);
-                AdsGoogle.InitAdView(MAdView, null);
+                AdsGoogle.Ad_Interstitial(this);
             }
             catch (Exception e)
             {
@@ -63,7 +61,6 @@ namespace DeepSound.Activities.SettingsUser.Support
             {
                 base.OnResume();
                 AddOrRemoveEvent(true);
-                MAdView?.Resume();
             }
             catch (Exception e)
             {
@@ -77,7 +74,6 @@ namespace DeepSound.Activities.SettingsUser.Support
             {
                 base.OnPause();
                 AddOrRemoveEvent(false);
-                MAdView?.Pause();
             }
             catch (Exception e)
             {
@@ -115,7 +111,6 @@ namespace DeepSound.Activities.SettingsUser.Support
         {
             try
             {
-                MAdView?.Destroy();
                 base.OnDestroy();
             }
             catch (Exception exception)
@@ -186,6 +181,11 @@ namespace DeepSound.Activities.SettingsUser.Support
 
                 TxtPackageName.Text = PackageName;
                 TxtCountVersion.Text = versionName;
+
+                var nativeAdLayout = FindViewById<NativeAdLayout>(Resource.Id.native_ad_container);
+                nativeAdLayout.Visibility = ViewStates.Gone;
+
+                AdsFacebook.InitNative(this, nativeAdLayout, null); 
             }
             catch (Exception e)
             {

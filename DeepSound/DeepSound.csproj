@@ -38,8 +38,10 @@
     <AndroidLinkMode>Full</AndroidLinkMode>
     <AndroidSupportedAbis>
     </AndroidSupportedAbis>
-    <AndroidTlsProvider>btls</AndroidTlsProvider>
-    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <AndroidTlsProvider>
+    </AndroidTlsProvider>
+    <AndroidHttpClientHandlerType>
+    </AndroidHttpClientHandlerType>
     <JavaMaximumHeapSize>2G</JavaMaximumHeapSize>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
     <AotAssemblies>false</AotAssemblies>
@@ -51,11 +53,12 @@
     <AndroidTlsProvider>btls</AndroidTlsProvider>
     <DxExtraArguments>--dex --no-strict --force-jumbo</DxExtraArguments>
     <AndroidMultiDexClassListExtraArgs>--disable-annotation-resolution-workaround</AndroidMultiDexClassListExtraArgs>
-    <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkSkip>SQLite.Net;DeepSoundClient;AutoMapper;Xamarin.InAppBilling;</AndroidLinkSkip>
+    <AndroidSigningKeyStore>KeyApk\deepsound.keystore</AndroidSigningKeyStore>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -77,7 +80,7 @@
     <DxExtraArguments>--dex --no-strict --force-jumbo</DxExtraArguments>
     <AndroidMultiDexClassListExtraArgs>--disable-annotation-resolution-workaround</AndroidMultiDexClassListExtraArgs>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-    <AndroidCreatePackagePerAbi>true</AndroidCreatePackagePerAbi>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidLinkSkip>SQLite.Net;DeepSoundClient;AutoMapper;Xamarin.InAppBilling;</AndroidLinkSkip>
     <AndroidDexTool>d8</AndroidDexTool>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
@@ -85,6 +88,7 @@
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidSigningKeyStore>KeyApk\deepsound.keystore</AndroidSigningKeyStore>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidKeyStore>false</AndroidKeyStore>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CircleButton">
@@ -205,6 +209,7 @@
     <Compile Include="Activities\UserProfile\Fragments\UserActivitiesFragment.cs" />
     <Compile Include="Activities\UserProfile\UserProfileFragment.cs" />
     <Compile Include="Adapters\MainTabAdapter.cs" />
+    <Compile Include="Helpers\Ads\AdsFacebook.cs" />
     <Compile Include="Helpers\Ads\AdsGoogle.cs" />
     <Compile Include="Helpers\Ads\NativeTemplateStyle.cs" />
     <Compile Include="Helpers\Ads\TemplateView.cs" />
@@ -418,6 +423,59 @@
     <AndroidResource Include="Resources\drawable\ImageAttach.webp" />
     <AndroidResource Include="Resources\drawable-xhdpi\ImageAttach.webp" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ImageAttach.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\bank.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\blackdefault.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\chatBackground.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\chatBackground3_Dark.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\CodeVerification.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\fan.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Grey_Offline.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_arrow_down_sign.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_back.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_check_mark.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_close.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_editimageuser.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_ic_back.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_Import.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_more.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_play_button.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_sentiment_satisfied_alt.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_upload.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_addUser.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_message_user.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_more_dots_horizntal.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_browse.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_feed.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_library.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_messages.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_notification.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_playlist.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_profile.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tab_search.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_tick.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon_Edit.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_notification.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\IconGoogle.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ImageAttach.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ImagePlacholder.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\ImagePlacholder_circle.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\line_verticle_black.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\line_verticle_white.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\login.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\loginBackgroundWowonder.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\LoginImage.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\logo.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\mt_loading01.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\mt_loading02.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\no_profile_image.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\no_profile_image_circle.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Onboarding_icon1.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Onboarding_icon2.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\Onboarding_icon3.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\SendLetter.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\splashscreen.webp" />
+    <AndroidResource Include="Resources\drawable-hdpi\world_map.webp" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml">
@@ -804,6 +862,12 @@
     <AndroidResource Include="Resources\layout\Style_LastChatView.xml" />
     <AndroidResource Include="Resources\menu\MessagesBox_Menu.xml" />
     <AndroidResource Include="Resources\layout\toolbar.xml" />
+    <AndroidResource Include="Resources\layout\fb_native_ad_unit.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\gopro_medal.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_fast_backward.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_action_fast_forward.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_stat_onesignal_default.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\icon_song.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AFollestad.MaterialDialogs.Commons">
@@ -831,7 +895,7 @@
       <Version>3.0.6</Version>
     </PackageReference>
     <PackageReference Include="Com.OneSignal">
-      <Version>3.8.2</Version>
+      <Version>3.9.0</Version>
     </PackageReference>
     <PackageReference Include="FAB.XamarinAndroid">
       <Version>1.6.4</Version>
@@ -855,7 +919,7 @@
       <Version>1.2.2.1</Version>
     </PackageReference>
     <PackageReference Include="Karamunting.Android.RanyAlbegWein.SpringFabMenu">
-      <Version>1.0.1</Version>
+      <Version>1.0.1.1</Version>
     </PackageReference>
     <PackageReference Include="Karamunting.Android.TutorialsAndroid.SEmojis">
       <Version>0.3.0</Version>
@@ -1234,6 +1298,9 @@
     <PackageReference Include="Xamarin.Build.Download">
       <Version>0.10.0</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Facebook.AudienceNetwork.Android">
+      <Version>5.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Facebook.Common.Android">
       <Version>5.11.2</Version>
     </PackageReference>
@@ -1265,16 +1332,16 @@
       <Version>3.3.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads">
-      <Version>71.1720.3</Version>
+      <Version>71.1720.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Base">
       <Version>71.1720.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Identifier">
-      <Version>117.0.0</Version>
+      <Version>71.1600.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Lite">
-      <Version>71.1720.2</Version>
+      <Version>71.1720.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Auth">
       <Version>71.1600.1</Version>
@@ -1289,7 +1356,7 @@
       <Version>71.1610.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Basement">
-      <Version>71.1620.2</Version>
+      <Version>71.1620.0</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Gass">
       <Version>71.1720.1</Version>
@@ -1328,7 +1395,6 @@
       <Version>1.4.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
      Other similar extension points exist, see Microsoft.Common.targets.

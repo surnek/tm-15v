@@ -92,7 +92,7 @@ namespace DeepSound.Activities.UserProfile
 
                 GetMyInfoData();
 
-                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Context); 
+                RewardedVideoAd = AdsGoogle.Ad_RewardedVideo(Activity); 
                 return view;
             }
             catch (Exception e)

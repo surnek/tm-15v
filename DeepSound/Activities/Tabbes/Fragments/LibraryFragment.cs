@@ -10,7 +10,6 @@ using DeepSound.Activities.Chat;
 using DeepSound.Activities.Library;
 using DeepSound.Activities.Tabbes.Adapters;
 using DeepSound.Helpers.Fonts;
-using Newtonsoft.Json;
 
 namespace DeepSound.Activities.Tabbes.Fragments
 {

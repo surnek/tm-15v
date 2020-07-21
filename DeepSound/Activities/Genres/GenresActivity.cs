@@ -290,15 +290,25 @@ namespace DeepSound.Activities.Genres
                                 });
                             }
                         }
-                        else Methods.DisplayReportResult(this, respond);
+                        else
+                        {
+                            if (respond is ErrorObject error)
+                            {
+                                var errorText = error.Error.Replace("&#039;", "'");
+                                AndHUD.Shared.ShowError(this, errorText, MaskType.Clear, TimeSpan.FromSeconds(2));
+                            }
+                            else if (respond is MessageObject errorRespond)
+                            {
+                                AndHUD.Shared.ShowError(this, errorRespond.Message, MaskType.Clear, TimeSpan.FromSeconds(2));
+                            }
+                            //Methods.DisplayReportResult(this, respond);
+                        }
                     }
                 }
                 else
                 {
                     AndHUD.Shared.ShowError(this, GetText(Resource.String.Lbl_PleaseSelectInterest), MaskType.Clear, TimeSpan.FromSeconds(2)); 
                 }
-                  
-                AndHUD.Shared.Dismiss(this);
             }
             catch (Exception exception)
             { 

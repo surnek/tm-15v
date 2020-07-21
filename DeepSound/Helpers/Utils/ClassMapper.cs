@@ -19,13 +19,13 @@ namespace DeepSound.Helpers.Utils
                     AllowNullCollections = true
                 };
 
-                 cfg.CreateMap<OptionsObject.Data, DataTables.SettingsTb>().ForMember(x => x.AutoIdSettings, opt => opt.Ignore());
-                 cfg.CreateMap<UserDataObject, DataTables.InfoUsersTb>().ForMember(x => x.AutoIdInfoUsers, opt => opt.Ignore());
-                 cfg.CreateMap<GenresObject.DataGenres, DataTables.GenresTb>().ForMember(x => x.AutoIdGenres, opt => opt.Ignore());
-                 cfg.CreateMap<PricesObject.DataPrice, DataTables.PriceTb>().ForMember(x => x.AutoIdPrice, opt => opt.Ignore());
-                 cfg.CreateMap<SoundDataObject, DataTables.SharedTb>().ForMember(x => x.AutoIdShared, opt => opt.Ignore());
-                 cfg.CreateMap<SoundDataObject, DataTables.LatestDownloadsTb>().ForMember(x => x.AutoIdaLatestDownloads, opt => opt.Ignore());
-                 
+                cfg.CreateMap<OptionsObject.Data, DataTables.SettingsTb>().ForMember(x => x.AutoIdSettings, opt => opt.Ignore());
+                cfg.CreateMap<UserDataObject, DataTables.InfoUsersTb>().ForMember(x => x.AutoIdInfoUsers, opt => opt.Ignore());
+                cfg.CreateMap<GenresObject.DataGenres, DataTables.GenresTb>().ForMember(x => x.AutoIdGenres, opt => opt.Ignore());
+                cfg.CreateMap<PricesObject.DataPrice, DataTables.PriceTb>().ForMember(x => x.AutoIdPrice, opt => opt.Ignore());
+                cfg.CreateMap<SoundDataObject, DataTables.SharedTb>().ForMember(x => x.AutoIdShared, opt => opt.Ignore());
+                cfg.CreateMap<SoundDataObject, DataTables.LatestDownloadsTb>().ForMember(x => x.AutoIdaLatestDownloads, opt => opt.Ignore()).ForAllMembers(opt => opt.Condition(srs => !string.IsNullOrEmpty(srs.Id.ToString()))); 
+
                 Mapper.Initialize(cfg);
             }
             catch (Exception e)

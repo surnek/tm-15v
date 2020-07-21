@@ -2,10 +2,12 @@
 using System.Linq;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Gms.Ads;
 using Android.Gms.Ads.Formats;
 using Android.Gms.Ads.Reward;
 using Android.Support.V7.Widget;
+using Android.Util;
 using Android.Views;
 using DeepSound.Helpers.Model;
 using DeepSound.Helpers.Utils;
@@ -65,7 +67,7 @@ namespace DeepSound.Helpers.Ads
         }
 
 
-        public static void Ad_Interstitial(Context context)
+        public static void Ad_Interstitial(Activity context)
         {
             try
             {
@@ -78,8 +80,16 @@ namespace DeepSound.Helpers.Ads
                         AdMobInterstitial ads = new AdMobInterstitial();
                         ads.ShowAd(context);
                     }
+                    else
+                    {
+                        AdsFacebook.InitInterstitial(context);
+                    }
 
                     CountInterstitial++;
+                }
+                else
+                {
+                    AdsFacebook.InitInterstitial(context);
                 }
             }
             catch (Exception exception)
@@ -275,7 +285,7 @@ namespace DeepSound.Helpers.Ads
             }
         }
 
-        public static AdMobRewardedVideo Ad_RewardedVideo(Context context)
+        public static AdMobRewardedVideo Ad_RewardedVideo(Activity context)
         {
             try
             {
@@ -289,9 +299,16 @@ namespace DeepSound.Helpers.Ads
                         ads.ShowAd(context);
                         return ads;
                     }
+                    else
+                    {
+                        AdsFacebook.InitRewardVideo(context);
+                    }
 
                     CountRewarded++;
                 }
+                else
+                    AdsFacebook.InitRewardVideo(context);
+
                 return null;
             }
             catch (Exception exception)
@@ -365,6 +382,11 @@ namespace DeepSound.Helpers.Ads
                 try
                 {
                     MAdView.Visibility = ViewStates.Visible;
+
+                    Resources r = Application.Context.Resources;
+                    int px = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, MAdView.AdSize.Height, r.DisplayMetrics);
+                    if (MRecycler != null) Methods.SetMargin(MRecycler, 0, 0, 0, px);
+
                     base.OnAdLoaded();
                 }
                 catch (Exception e)

@@ -73,14 +73,14 @@ namespace DeepSound.Activities.Chat.Adapters
                 }
 
                 //If message contains Media files 
-                switch (item.GetLastMessage.ApiType)
+                switch (item.GetLastMessage?.GetLastMessageClass.ApiType)
                 {
                     case ApiType.Text:
                     {
                         holder.LastMessagesIcon.Visibility = ViewStates.Gone;
-                        holder.TxtLastMessages.Text = item.GetLastMessage.Text.Contains("http")
-                            ? Methods.FunString.SubStringCutOf(item.GetLastMessage.Text, 30)
-                            : Methods.FunString.DecodeString(Methods.FunString.SubStringCutOf(item.GetLastMessage.Text, 30))
+                        holder.TxtLastMessages.Text = item.GetLastMessage.Value.GetLastMessageClass != null && item.GetLastMessage.Value.GetLastMessageClass.Text.Contains("http")
+                            ? Methods.FunString.SubStringCutOf(item.GetLastMessage?.GetLastMessageClass.Text, 30)
+                            : Methods.FunString.DecodeString(Methods.FunString.SubStringCutOf(item.GetLastMessage?.GetLastMessageClass.Text, 30))
                             ?? ActivityContext.GetText(Resource.String.Lbl_SendMessage);
                         break;
                     }
@@ -94,12 +94,12 @@ namespace DeepSound.Activities.Chat.Adapters
                 }
 
                 //last seen time  
-                holder.TxtTimestamp.Text = Methods.Time.TimeAgo(Convert.ToInt32(item.GetLastMessage.Time) , true);
+                holder.TxtTimestamp.Text = Methods.Time.TimeAgo(Convert.ToInt32(item.GetLastMessage?.GetLastMessageClass.Time) , true);
 
                 //Check read message
-                if (item.GetLastMessage.ToId != UserDetails.UserId && item.GetLastMessage.FromId == UserDetails.UserId)
+                if (item.GetLastMessage?.GetLastMessageClass.ToId != UserDetails.UserId && item.GetLastMessage?.GetLastMessageClass.FromId == UserDetails.UserId)
                 {
-                    if (item.GetLastMessage.Seen == 0)
+                    if (item.GetLastMessage?.GetLastMessageClass.Seen == 0)
                     {
                         holder.ImageColor.Visibility = ViewStates.Invisible;
                         holder.TxtUsername.SetTypeface(Typeface.Default, TypefaceStyle.Normal);
@@ -112,9 +112,9 @@ namespace DeepSound.Activities.Chat.Adapters
                         holder.TxtLastMessages.SetTypeface(Typeface.Default, TypefaceStyle.Normal);
                     }
                 }
-                else if (item.GetLastMessage.ToId == UserDetails.UserId && item.GetLastMessage.FromId != UserDetails.UserId)
+                else if (item.GetLastMessage?.GetLastMessageClass.ToId == UserDetails.UserId && item.GetLastMessage?.GetLastMessageClass.FromId != UserDetails.UserId)
                 {
-                    if (item.GetLastMessage.Seen == 0)
+                    if (item.GetLastMessage?.GetLastMessageClass.Seen == 0)
                     {
                         holder.TxtUsername.SetTypeface(Typeface.Default, TypefaceStyle.Bold);
                         holder.TxtLastMessages.SetTypeface(Typeface.Default, TypefaceStyle.Bold);

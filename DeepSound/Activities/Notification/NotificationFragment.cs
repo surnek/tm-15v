@@ -72,7 +72,7 @@ namespace DeepSound.Activities.Notification
                 SetRecyclerViewAdapters();
 
                 StartApiService();
-                AdsGoogle.Ad_Interstitial(Context);
+                AdsGoogle.Ad_Interstitial(Activity);
 
                 base.OnViewCreated(view, savedInstanceState);
             }

@@ -71,7 +71,7 @@ namespace DeepSound.Activities.Tabbes.Adapters
                 {
                     var item = StationsList[position];
                     if (item != null)
-                    {
+                    {                         
                         FullGlideRequestBuilder.Load(item.Thumbnail).Into(holder.Image);
                         holder.TxtName.Text = Methods.FunString.SubStringCutOf(Methods.FunString.DecodeString(item.Title), 60);
                         holder.TxtCat.Text = item.CategoryName;

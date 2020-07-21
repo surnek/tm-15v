@@ -341,14 +341,13 @@
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"  >
-	            <com.google.android.gms.ads.AdView
-					android:id="@+id/adView"
-                    app:adSize="BANNER"
-                    app:adUnitId="@string/banner_ad_unit_id"
+                <include layout="@layout/fb_native_ad_unit"
+                    android:id="@+id/native_ad_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="wrap_content" 
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp" /> 
 			</RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView> 

@@ -352,10 +352,10 @@ namespace DeepSound.Activities.Tabbes.Fragments
                 var dataUser = ListUtils.MyUserInfoList.FirstOrDefault();
                 if (dataUser != null)
                 {
-                    Intent intent = new Intent(Activity, typeof(DialogInfoUserActivity));
-                    intent.PutExtra("ItemDataUser", JsonConvert.SerializeObject(dataUser));
+                    Intent intent = new Intent(Context, typeof(DialogInfoUserActivity));
+                    intent.PutExtra("UserId", UserDetails.UserId.ToString());
                     intent.PutExtra("ItemDataDetails", JsonConvert.SerializeObject(DetailsCounter));
-                    Activity.StartActivity(intent);
+                    Context.StartActivity(intent);
                 }
             }
             catch (Exception exception)
